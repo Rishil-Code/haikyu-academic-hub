@@ -16,6 +16,12 @@ export interface User {
   program?: 'BTech' | 'MTech'; // For students
   branch?: string; // For students
   gender?: 'male' | 'female' | 'other'; // For teachers
+  email?: string; // Added for account settings
+  github?: string; // Added for account settings
+  linkedin?: string; // Added for account settings
+  phone?: string; // Added for account settings
+  address?: string; // Added for account settings
+  profilePic?: string; // Added for profile picture
 }
 
 // Sample users for development
@@ -33,6 +39,8 @@ const SAMPLE_USERS = {
     department: 'Computer Science',
     gender: 'male',
     password: 'password123',
+    email: 'sugawara@svu.edu',
+    phone: '9876543210',
   },
   student1: {
     id: 'student1',
@@ -42,6 +50,8 @@ const SAMPLE_USERS = {
     program: 'BTech' as 'BTech',
     branch: 'Computer Science',
     password: 'password123',
+    email: 'hinata@svu.edu',
+    github: 'github.com/hinata',
   },
 };
 
@@ -52,6 +62,8 @@ interface AuthContextType {
   createUser: (userData: Omit<User, 'id'> & { id: string, password: string }) => void;
   users: User[];
   updateUserPassword: (userId: string, newPassword: string) => boolean;
+  deleteUser: (userId: string) => boolean; // Added deleteUser function
+  updateUserProfile: (userId: string, updatedData: Partial<User>) => boolean; // Added for profile updates
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -150,6 +162,55 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return true;
   };
 
+  // Add deleteUser function
+  const deleteUser = (userId: string): boolean => {
+    // Prevent deleting admin account
+    if (userId === 'rishil') {
+      toast.error("Cannot delete the admin account.");
+      return false;
+    }
+    
+    const userIndex = users.findIndex(u => u.id === userId);
+    if (userIndex === -1) {
+      toast.error("User not found.");
+      return false;
+    }
+    
+    const updatedUsers = users.filter(u => u.id !== userId);
+    setUsers(updatedUsers);
+    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    
+    return true;
+  };
+
+  // Add updateUserProfile function
+  const updateUserProfile = (userId: string, updatedData: Partial<User>): boolean => {
+    const userIndex = users.findIndex(u => u.id === userId);
+    if (userIndex === -1) {
+      toast.error("User not found.");
+      return false;
+    }
+
+    const updatedUsers = [...users];
+    updatedUsers[userIndex] = {
+      ...updatedUsers[userIndex],
+      ...updatedData
+    };
+
+    setUsers(updatedUsers);
+    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    
+    // If the current user is updating their own profile, update the stored user too
+    if (user && user.id === userId) {
+      const updatedUser = { ...user, ...updatedData };
+      setUser(updatedUser);
+      localStorage.setItem('svu_user', JSON.stringify(updatedUser));
+    }
+    
+    toast.success("Profile updated successfully.");
+    return true;
+  };
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -157,7 +218,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       logout, 
       createUser, 
       users,
-      updateUserPassword 
+      updateUserPassword,
+      deleteUser,
+      updateUserProfile
     }}>
       {children}
     </AuthContext.Provider>

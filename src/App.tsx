@@ -17,6 +17,7 @@ import StudentRecords from "./pages/StudentRecords";
 import Results from "./pages/Results";
 import Projects from "./pages/Projects";
 import Internships from "./pages/Internships";
+import AccountSettings from "./pages/AccountSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -85,6 +86,14 @@ const App = () => (
                 element={
                   <ProtectedRoute allowedRoles={["student"]}>
                     <Internships />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/settings" 
+                element={
+                  <ProtectedRoute>
+                    <AccountSettings />
                   </ProtectedRoute>
                 } 
               />

@@ -9,8 +9,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth, User, UserRole } from "@/contexts/AuthContext";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, User as UserIcon, GraduationCap, BookOpen, Eye, EyeOff } from "lucide-react";
+import { Plus, User as UserIcon, GraduationCap, BookOpen, Eye, EyeOff, Trash2 } from "lucide-react";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { toast } from "sonner";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 export default function UserManagement() {
   const { users, createUser } = useAuth();
@@ -81,8 +83,10 @@ export default function UserManagement() {
     });
   };
 
-  const teacherUsers = users.filter(user => user.role === "teacher");
-  const studentUsers = users.filter(user => user.role === "student");
+  // Add function to delete a user
+  const { users: allUsers, createUser: addUser } = useAuth();
+  const teacherUsers = allUsers.filter(user => user.role === "teacher");
+  const studentUsers = allUsers.filter(user => user.role === "student");
 
   const TeacherForm = () => (
     <>
@@ -252,6 +256,15 @@ export default function UserManagement() {
     </>
   );
 
+  // Get deleteUser function from AuthContext
+  const { deleteUser } = useAuth();
+
+  const handleDeleteUser = (userId: string) => {
+    if (deleteUser(userId)) {
+      toast.success("User deleted successfully");
+    }
+  };
+
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
       <MainLayout>
@@ -330,7 +343,33 @@ export default function UserManagement() {
                             </p>
                           </div>
                         </div>
-                        <div className="text-sm text-gray-500">ID: {teacher.id}</div>
+                        <div className="flex items-center space-x-2">
+                          <div className="text-sm text-gray-500">ID: {teacher.id}</div>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-50">
+                                <Trash2 size={18} />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Teacher</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete {teacher.name}? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={() => handleDeleteUser(teacher.id)}
+                                  className="bg-red-500 hover:bg-red-600"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -369,7 +408,33 @@ export default function UserManagement() {
                             </p>
                           </div>
                         </div>
-                        <div className="text-sm text-gray-500">Roll: {student.rollNo}</div>
+                        <div className="flex items-center space-x-2">
+                          <div className="text-sm text-gray-500">Roll: {student.rollNo}</div>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-50">
+                                <Trash2 size={18} />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Student</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete {student.name}? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={() => handleDeleteUser(student.id)}
+                                  className="bg-red-500 hover:bg-red-600"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
                       </div>
                     ))}
                   </div>

@@ -86,7 +86,7 @@ export function LoginForm() {
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder={role === 'admin' ? 'rishil12' : "password"}
+                placeholder={role === 'admin' ? 'rishil12' : "password123"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
