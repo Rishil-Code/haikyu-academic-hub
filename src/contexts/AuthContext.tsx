@@ -10,18 +10,18 @@ export interface User {
   id: string;
   name: string;
   role: UserRole;
-  password?: string; // Added password field
-  department?: string; // For teachers
-  rollNo?: string; // For students
-  program?: 'BTech' | 'MTech'; // For students
-  branch?: string; // For students
-  gender?: 'male' | 'female' | 'other'; // For teachers
-  email?: string; // Added for account settings
-  github?: string; // Added for account settings
-  linkedin?: string; // Added for account settings
-  phone?: string; // Added for account settings
-  address?: string; // Added for account settings
-  profilePic?: string; // Added for profile picture
+  password?: string;
+  department?: string;
+  rollNo?: string;
+  program?: 'BTech' | 'MTech';
+  branch?: string;
+  gender?: 'male' | 'female' | 'other';
+  email?: string;
+  github?: string;
+  linkedin?: string;
+  phone?: string;
+  address?: string;
+  profilePic?: string;
 }
 
 // Sample users for development
@@ -62,8 +62,8 @@ interface AuthContextType {
   createUser: (userData: Omit<User, 'id'> & { id: string, password: string }) => void;
   users: User[];
   updateUserPassword: (userId: string, newPassword: string) => boolean;
-  deleteUser: (userId: string) => boolean; // Added deleteUser function
-  updateUserProfile: (userId: string, updatedData: Partial<User>) => boolean; // Added for profile updates
+  deleteUser: (userId: string) => boolean;
+  updateUserProfile: (userId: string, updatedData: Partial<User>) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,8 +95,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [users]);
 
   const login = (id: string, password: string, role: UserRole): boolean => {
+    // Always log to console for debugging
+    console.log(`Attempting login with id: ${id}, role: ${role}`);
+    console.log('Available users:', users);
+    
     // Admin authentication - always use the fixed credentials
     if (role === 'admin' && id === 'rishil' && password === 'rishil12') {
+      console.log('Admin login successful');
       setUser(SAMPLE_USERS.admin);
       localStorage.setItem('svu_user', JSON.stringify(SAMPLE_USERS.admin));
       toast.success("Welcome, Admin!");
@@ -105,13 +110,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // Other users authentication
     const foundUser = users.find(u => u.id === id && u.role === role);
+    console.log('Found user:', foundUser);
+    
     if (foundUser && foundUser.password === password) {
+      console.log('User login successful');
       setUser(foundUser);
       localStorage.setItem('svu_user', JSON.stringify(foundUser));
       toast.success(`Welcome, ${foundUser.name}!`);
       return true;
     }
     
+    console.log('Login failed - invalid credentials');
     toast.error("Invalid credentials. Please try again.");
     return false;
   };
@@ -129,7 +138,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
     
-    const newUsers = [...users, userData];
+    // Create new user with all required fields
+    const newUser = {
+      id: userData.id,
+      name: userData.name,
+      role: userData.role,
+      password: userData.password,
+      ...(userData.role === "teacher" ? {
+        department: userData.department || "",
+        gender: userData.gender as "male" | "female" | "other" || "other",
+      } : {}),
+      ...(userData.role === "student" ? {
+        rollNo: userData.rollNo || "",
+        program: userData.program as "BTech" | "MTech" || "BTech",
+        branch: userData.branch || "",
+      } : {}),
+    };
+    
+    console.log('Creating new user:', newUser);
+    const newUsers = [...users, newUser];
     setUsers(newUsers);
     localStorage.setItem('svu_users', JSON.stringify(newUsers));
     toast.success(`New ${userData.role} account created successfully!`);

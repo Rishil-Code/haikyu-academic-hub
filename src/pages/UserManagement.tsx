@@ -100,6 +100,7 @@ export default function UserManagement() {
             value={formData.id}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
         <div className="space-y-2">
@@ -111,6 +112,7 @@ export default function UserManagement() {
             value={formData.name}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
       </div>
@@ -125,6 +127,7 @@ export default function UserManagement() {
             value={formData.password}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
           <button
             type="button"
@@ -145,6 +148,7 @@ export default function UserManagement() {
             value={formData.department}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
         <div className="space-y-2">
@@ -179,6 +183,7 @@ export default function UserManagement() {
             value={formData.id}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
         <div className="space-y-2">
@@ -190,6 +195,7 @@ export default function UserManagement() {
             value={formData.name}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
       </div>
@@ -204,6 +210,7 @@ export default function UserManagement() {
             value={formData.password}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
           <button
             type="button"
@@ -224,6 +231,7 @@ export default function UserManagement() {
             value={formData.rollNo}
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </div>
         <div className="space-y-2">
@@ -251,6 +259,7 @@ export default function UserManagement() {
           value={formData.branch}
           onChange={handleChange}
           required
+          autoComplete="off"
         />
       </div>
     </>
