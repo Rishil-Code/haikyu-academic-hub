@@ -9,16 +9,18 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth, User, UserRole } from "@/contexts/AuthContext";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, User as UserIcon, GraduationCap, BookOpen } from "lucide-react";
+import { Plus, User as UserIcon, GraduationCap, BookOpen, Eye, EyeOff } from "lucide-react";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 export default function UserManagement() {
   const { users, createUser } = useAuth();
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<UserRole>("student");
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
     name: "",
+    password: "",
     department: "",
     gender: "",
     rollNo: "",
@@ -35,13 +37,23 @@ export default function UserManagement() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const userData: User = {
+    if (!formData.password) {
+      toast.error("Password is required");
+      return;
+    }
+    
+    const userData: User & { password: string } = {
       id: formData.id,
       name: formData.name,
       role,
+      password: formData.password,
       ...(role === "teacher" ? {
         department: formData.department,
         gender: formData.gender as "male" | "female" | "other",
@@ -60,6 +72,7 @@ export default function UserManagement() {
     setFormData({
       id: "",
       name: "",
+      password: "",
       department: "",
       gender: "",
       rollNo: "",
@@ -95,6 +108,27 @@ export default function UserManagement() {
             onChange={handleChange}
             required
           />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <div className="relative">
+          <Input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            onClick={togglePasswordVisibility}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -153,6 +187,27 @@ export default function UserManagement() {
             onChange={handleChange}
             required
           />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <div className="relative">
+          <Input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            onClick={togglePasswordVisibility}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">

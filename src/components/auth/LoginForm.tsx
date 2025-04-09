@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuth, UserRole } from "@/contexts/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 export function LoginForm() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<UserRole>("student");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -28,6 +30,10 @@ export function LoginForm() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -76,15 +82,24 @@ export function LoginForm() {
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
             </div>
-            <Input
-              id="password"
-              type="password"
-              placeholder={role === 'admin' ? 'rishil12' : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder={role === 'admin' ? 'rishil12' : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           {role === 'admin' && (
             <p className="text-xs text-muted-foreground">

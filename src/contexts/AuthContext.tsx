@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 
@@ -9,6 +10,7 @@ export interface User {
   id: string;
   name: string;
   role: UserRole;
+  password?: string; // Added password field
   department?: string; // For teachers
   rollNo?: string; // For students
   program?: 'BTech' | 'MTech'; // For students
@@ -22,6 +24,7 @@ const SAMPLE_USERS = {
     id: 'rishil',
     name: 'Rishil (Admin)',
     role: 'admin' as UserRole,
+    password: 'rishil12', // Fixed admin password
   },
   teacher1: {
     id: 'teacher1',
@@ -29,6 +32,7 @@ const SAMPLE_USERS = {
     role: 'teacher' as UserRole,
     department: 'Computer Science',
     gender: 'male',
+    password: 'password123',
   },
   student1: {
     id: 'student1',
@@ -37,6 +41,7 @@ const SAMPLE_USERS = {
     rollNo: 'CS2021001',
     program: 'BTech' as 'BTech',
     branch: 'Computer Science',
+    password: 'password123',
   },
 };
 
@@ -44,19 +49,25 @@ interface AuthContextType {
   user: User | null;
   login: (id: string, password: string, role: UserRole) => boolean;
   logout: () => void;
-  createUser: (userData: Omit<User, 'id'> & { id: string }) => void;
+  createUser: (userData: Omit<User, 'id'> & { id: string, password: string }) => void;
   users: User[];
+  updateUserPassword: (userId: string, newPassword: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Initialize users from localStorage or use default sample users
+  const [users, setUsers] = useState<User[]>(() => {
+    const storedUsers = localStorage.getItem('svu_users');
+    return storedUsers ? JSON.parse(storedUsers) : [
+      SAMPLE_USERS.admin,
+      SAMPLE_USERS.teacher1,
+      SAMPLE_USERS.student1,
+    ];
+  });
+  
   const [user, setUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>([
-    SAMPLE_USERS.admin,
-    SAMPLE_USERS.teacher1,
-    SAMPLE_USERS.student1,
-  ]);
 
   // Check for stored user on initial load
   useEffect(() => {
@@ -66,8 +77,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  // Save users to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('svu_users', JSON.stringify(users));
+  }, [users]);
+
   const login = (id: string, password: string, role: UserRole): boolean => {
-    // Admin authentication
+    // Admin authentication - always use the fixed credentials
     if (role === 'admin' && id === 'rishil' && password === 'rishil12') {
       setUser(SAMPLE_USERS.admin);
       localStorage.setItem('svu_user', JSON.stringify(SAMPLE_USERS.admin));
@@ -77,9 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // Other users authentication
     const foundUser = users.find(u => u.id === id && u.role === role);
-    if (foundUser) {
-      // In a real app, we would verify the password here
-      // For demo, we'll just check if the user exists
+    if (foundUser && foundUser.password === password) {
       setUser(foundUser);
       localStorage.setItem('svu_user', JSON.stringify(foundUser));
       toast.success(`Welcome, ${foundUser.name}!`);
@@ -96,7 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     toast.info("You have been logged out.");
   };
 
-  const createUser = (userData: Omit<User, 'id'> & { id: string }) => {
+  const createUser = (userData: Omit<User, 'id'> & { id: string, password: string }) => {
     // Check if user already exists
     if (users.some(u => u.id === userData.id)) {
       toast.error("User ID already exists. Please choose another.");
@@ -105,11 +119,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     const newUsers = [...users, userData];
     setUsers(newUsers);
+    localStorage.setItem('svu_users', JSON.stringify(newUsers));
     toast.success(`New ${userData.role} account created successfully!`);
   };
 
+  const updateUserPassword = (userId: string, newPassword: string): boolean => {
+    const userIndex = users.findIndex(u => u.id === userId);
+    if (userIndex === -1) {
+      toast.error("User not found.");
+      return false;
+    }
+
+    const updatedUsers = [...users];
+    updatedUsers[userIndex] = {
+      ...updatedUsers[userIndex],
+      password: newPassword
+    };
+
+    setUsers(updatedUsers);
+    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    
+    // If the current user is updating their own password, update the stored user too
+    if (user && user.id === userId) {
+      const updatedUser = { ...user, password: newPassword };
+      setUser(updatedUser);
+      localStorage.setItem('svu_user', JSON.stringify(updatedUser));
+    }
+    
+    toast.success("Password updated successfully.");
+    return true;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, createUser, users }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      logout, 
+      createUser, 
+      users,
+      updateUserPassword 
+    }}>
       {children}
     </AuthContext.Provider>
   );
