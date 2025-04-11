@@ -23,7 +23,7 @@ export default function UserManagement() {
           <UserManagementHeader open={open} setOpen={setOpen} />
           
           <div className="grid gap-6 md:grid-cols-2">
-            <Card className="bg-gradient-to-br from-indigo-900/90 to-purple-900/90 border border-indigo-500/30">
+            <Card className="bg-gradient-to-br from-indigo-800/90 to-purple-800/90 border border-indigo-500/30 rounded-xl shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center text-white">
                   <GraduationCap className="mr-2 h-5 w-5 text-indigo-300" />
@@ -36,7 +36,7 @@ export default function UserManagement() {
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-indigo-900/90 to-purple-900/90 border border-indigo-500/30">
+            <Card className="bg-gradient-to-br from-indigo-800/90 to-purple-800/90 border border-indigo-500/30 rounded-xl shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center text-white">
                   <BookOpen className="mr-2 h-5 w-5 text-indigo-300" />

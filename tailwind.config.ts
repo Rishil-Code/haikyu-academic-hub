@@ -63,13 +63,13 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Haikyu theme colors
+				// Refined Haikyu theme colors with less zany/vibrant tones
 				haikyu: {
-					orange: '#F4A261',
+					orange: '#E67E22',
 					black: '#1A1F2C',
 					navy: '#2B3A67',
 					gray: '#E0E1DD',
-					lightOrange: '#F9C784',
+					lightOrange: '#F5CBA7',
 				}
 			},
 			borderRadius: {

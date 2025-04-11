@@ -14,12 +14,14 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-900 to-purple-800 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-800 to-purple-800 p-4">
       <div className="mb-8 text-center animate-fade-in">
         <div className="flex justify-center mb-4">
-          <img src={volleyballLogo} alt="SVU Logo" className="h-20 w-20 animate-bounce-slow" />
+          <div className="h-20 w-20 rounded-3xl bg-white/10 backdrop-blur-sm flex items-center justify-center p-4 shadow-lg border border-white/20">
+            <img src={volleyballLogo} alt="SVU Logo" className="h-12 w-12 animate-bounce-slow" />
+          </div>
         </div>
-        <h1 className="text-4xl font-bold text-white">
+        <h1 className="text-4xl font-bold text-white text-shadow-lg">
           SVU Student Management
         </h1>
         <p className="mt-2 text-lg text-indigo-200">Sri Venkateswara University College</p>
@@ -30,7 +32,7 @@ export default function Login() {
       </div>
       
       <div className="mt-12 text-center">
-        <div className="w-32 h-1 bg-indigo-400 mx-auto mb-4 rounded-full"></div>
+        <div className="w-32 h-1 bg-white/20 mx-auto mb-4 rounded-full"></div>
         <p className="text-sm text-indigo-200">
           Powered by SVU © {new Date().getFullYear()}
         </p>

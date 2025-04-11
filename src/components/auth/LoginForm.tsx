@@ -39,7 +39,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="w-full max-w-md mx-auto border-indigo-400 shadow-lg bg-white/95">
+      <Card className="card-modern">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
@@ -48,7 +48,7 @@ export function LoginForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="role">Select Role</Label>
+            <Label htmlFor="role" className="text-base">Select Role</Label>
             <RadioGroup
               defaultValue={role}
               onValueChange={(value) => setRole(value as UserRole)}
@@ -69,7 +69,7 @@ export function LoginForm() {
             </RadioGroup>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="userId">User ID</Label>
+            <Label htmlFor="userId" className="text-base">User ID</Label>
             <Input
               id="userId"
               placeholder={role === 'admin' ? 'rishil' : `${role}1`}
@@ -77,11 +77,12 @@ export function LoginForm() {
               onChange={(e) => setUserId(e.target.value)}
               autoComplete="username"
               required
+              className="input-field"
             />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-base">Password</Label>
             </div>
             <div className="relative">
               <Input
@@ -92,6 +93,7 @@ export function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 required
+                className="input-field pr-10"
               />
               <button
                 type="button"
@@ -111,7 +113,7 @@ export function LoginForm() {
         <CardFooter>
           <Button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700"
+            className="w-full btn-haikyu"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}

@@ -29,15 +29,14 @@ export function MainLayout({ children }: MainLayoutProps) {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 bg-purple-900 border-r border-purple-700/50 shadow-sm transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border shadow-lg transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex h-16 items-center justify-between px-4 border-b border-purple-700/50">
+        <div className="flex h-16 items-center justify-between px-4 border-b border-sidebar-border">
           <Link to="/dashboard" className="flex items-center space-x-2">
-            {/* SVG Volleyball logo placeholder */}
-            <div className="h-8 w-8 rounded-full bg-haikyu-orange flex items-center justify-center text-white font-bold">
-              SV
+            <div className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center text-white font-bold">
+              <img src={volleyballLogo} alt="SVU Logo" className="h-6 w-6" />
             </div>
             <span className="text-lg font-bold text-white">SVU Management</span>
           </Link>
@@ -45,26 +44,26 @@ export function MainLayout({ children }: MainLayoutProps) {
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-white hover:bg-purple-800/50"
+            className="lg:hidden text-white hover:bg-white/10"
           >
             <X className="h-5 w-5" />
           </Button>
         </div>
         
-        <div className="py-2">
+        <div className="py-4">
           <SidebarMenu />
         </div>
       </aside>
 
       <div className="flex flex-col flex-1 w-full overflow-hidden">
         {/* Header */}
-        <header className="h-16 bg-purple-900/80 backdrop-blur-sm border-b border-purple-700/50 shadow-sm flex items-center justify-between px-4 lg:px-6">
+        <header className="h-16 bg-sidebar/80 backdrop-blur-sm border-b border-sidebar-border shadow-sm flex items-center justify-between px-4 lg:px-6">
           <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-white hover:bg-purple-800/50"
+              className="lg:hidden text-white hover:bg-white/10"
             >
               <MenuIcon className="h-5 w-5" />
             </Button>
@@ -75,11 +74,11 @@ export function MainLayout({ children }: MainLayoutProps) {
           
           {user && (
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-purple-100 hidden sm:block">
-                {user.name} ({user.role})
+              <div className="text-sm text-white/90 hidden sm:block">
+                {user.name} <span className="text-xs text-white/70 capitalize">({user.role})</span>
               </div>
-              <div className="h-8 w-8 rounded-full bg-haikyu-orange text-white flex items-center justify-center text-sm font-medium">
-                {user.name.charAt(0)}
+              <div className="h-9 w-9 rounded-full bg-white/10 text-white flex items-center justify-center text-sm font-medium shadow-inner">
+                {user.name.charAt(0).toUpperCase()}
               </div>
             </div>
           )}

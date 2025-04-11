@@ -52,6 +52,11 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
       return;
     }
     
+    if (!formData.gender) {
+      toast.error("Gender is required");
+      return;
+    }
+    
     const userData = {
       id: formData.id,
       name: formData.name,
@@ -86,13 +91,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
-          <Plus className="mr-2 h-4 w-4" />
-          Create User
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="card-modern sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Create New User</DialogTitle>
@@ -134,7 +133,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
             />}
           </div>
           <DialogFooter>
-            <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700">Create User</Button>
+            <Button type="submit" className="btn-haikyu">Create User</Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -164,6 +163,7 @@ function TeacherForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
         <div className="space-y-2">
@@ -176,6 +176,7 @@ function TeacherForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
       </div>
@@ -191,6 +192,7 @@ function TeacherForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field pr-10"
           />
           <button
             type="button"
@@ -212,6 +214,7 @@ function TeacherForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
         <div className="space-y-2">
@@ -220,7 +223,7 @@ function TeacherForm({ formData, handleChange, handleSelectChange, showPassword,
             value={formData.gender}
             onValueChange={(value) => handleSelectChange("gender", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="input-field">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
             <SelectContent>
@@ -249,6 +252,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
         <div className="space-y-2">
@@ -261,6 +265,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
       </div>
@@ -276,6 +281,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field pr-10"
           />
           <button
             type="button"
@@ -297,6 +303,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
         <div className="space-y-2">
@@ -305,7 +312,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             value={formData.program}
             onValueChange={(value) => handleSelectChange("program", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="input-field">
               <SelectValue placeholder="Select program" />
             </SelectTrigger>
             <SelectContent>
@@ -326,6 +333,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             onChange={handleChange}
             required
             autoComplete="off"
+            className="input-field"
           />
         </div>
         <div className="space-y-2">
@@ -334,7 +342,7 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
             value={formData.gender}
             onValueChange={(value) => handleSelectChange("gender", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="input-field">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
             <SelectContent>
