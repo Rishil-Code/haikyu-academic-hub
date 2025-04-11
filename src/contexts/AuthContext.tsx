@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { User, UserRole } from '@/types/user';
@@ -19,14 +18,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize users from localStorage or use default sample users
   const [users, setUsers] = useState<User[]>(() => {
     return retrieveUsers() || getSampleUsers();
   });
   
   const [user, setUser] = useState<User | null>(null);
 
-  // Check for stored user on initial load
   useEffect(() => {
     const storedUser = retrieveUser();
     if (storedUser) {
@@ -34,7 +31,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  // Save users to localStorage whenever they change
   useEffect(() => {
     storeUsers(users);
   }, [users]);
@@ -43,7 +39,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log(`Attempting login with id: ${id}, role: ${role}`);
     console.log('Available users:', users);
     
-    // Find the user with matching ID and role
     const foundUser = users.find(u => u.id === id && u.role === role);
     console.log('Found user:', foundUser);
     
@@ -67,13 +62,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const createUser = (userData: Omit<User, 'id'> & { id: string, password: string }) => {
-    // Check if user already exists
     if (users.some(u => u.id === userData.id)) {
       toast.error("User ID already exists. Please choose another.");
       return;
     }
     
-    // Create new user with all required fields
     const newUser = {
       id: userData.id,
       name: userData.name,
@@ -119,7 +112,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUsers(updatedUsers);
     storeUsers(updatedUsers);
     
-    // If the current user is updating their own password, update the stored user too
     if (user && user.id === userId) {
       const updatedUser = { ...user, password: newPassword };
       setUser(updatedUser);
@@ -131,7 +123,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const deleteUser = (userId: string): boolean => {
-    // Prevent deleting admin account
     if (userId === 'rishil') {
       toast.error("Cannot delete the admin account.");
       return false;
@@ -167,7 +158,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUsers(updatedUsers);
     storeUsers(updatedUsers);
     
-    // If the current user is updating their own profile, update the stored user too
     if (user && user.id === userId) {
       const updatedUser = { ...user, ...updatedData };
       setUser(updatedUser);
@@ -201,3 +191,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export type { User };
