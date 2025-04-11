@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAuth, UserRole } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { UserRole } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
 
 export function LoginForm() {
@@ -38,7 +39,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="w-full max-w-md mx-auto border-haikyu-orange">
+      <Card className="w-full max-w-md mx-auto border-indigo-400 shadow-lg bg-white/95">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
@@ -110,7 +111,7 @@ export function LoginForm() {
         <CardFooter>
           <Button
             type="submit"
-            className="w-full btn-haikyu"
+            className="w-full bg-indigo-600 hover:bg-indigo-700"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}

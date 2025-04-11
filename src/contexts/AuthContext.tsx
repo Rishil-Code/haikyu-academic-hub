@@ -1,8 +1,9 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { User, UserRole } from '@/types/user';
 import { getSampleUsers } from '@/utils/sampleData';
-import { storeUser, retrieveUser, storeUsers, retrieveUsers } from '@/utils/storage';
+import { storeUser, retrieveUser, storeUsers, retrieveUsers, clearStorage } from '@/utils/storage';
 
 interface AuthContextType {
   user: User | null;
@@ -42,17 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log(`Attempting login with id: ${id}, role: ${role}`);
     console.log('Available users:', users);
     
-    // Admin authentication
-    const adminUser = users.find(u => u.id === 'rishil' && u.role === 'admin');
-    if (role === 'admin' && id === 'rishil' && password === 'rishil12') {
-      console.log('Admin login successful');
-      setUser(adminUser!);
-      storeUser(adminUser!);
-      toast.success("Welcome, Admin!");
-      return true;
-    }
-    
-    // Other users authentication
+    // Find the user with matching ID and role
     const foundUser = users.find(u => u.id === id && u.role === role);
     console.log('Found user:', foundUser);
     
@@ -88,9 +79,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       name: userData.name,
       role: userData.role,
       password: userData.password,
+      gender: userData.gender || "other",
       ...(userData.role === "teacher" ? {
         department: userData.department || "",
-        gender: userData.gender as "male" | "female" | "other" || "other",
       } : {}),
       ...(userData.role === "student" ? {
         rollNo: userData.rollNo || "",

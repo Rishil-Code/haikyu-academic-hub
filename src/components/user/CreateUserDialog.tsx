@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useAuth, UserRole } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { UserRole } from "@/types/user";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
@@ -56,9 +57,9 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
       name: formData.name,
       role,
       password: formData.password,
+      gender: formData.gender as "male" | "female" | "other",
       ...(role === "teacher" ? {
         department: formData.department,
-        gender: formData.gender as "male" | "female" | "other",
       } : {}),
       ...(role === "student" ? {
         rollNo: formData.rollNo,
@@ -86,7 +87,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="btn-haikyu">
+        <Button className="bg-indigo-600 hover:bg-indigo-700">
           <Plus className="mr-2 h-4 w-4" />
           Create User
         </Button>
@@ -133,7 +134,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
             />}
           </div>
           <DialogFooter>
-            <Button type="submit" className="btn-haikyu">Create User</Button>
+            <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700">Create User</Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -314,17 +315,35 @@ function StudentForm({ formData, handleChange, handleSelectChange, showPassword,
           </Select>
         </div>
       </div>
-      <div className="space-y-2">
-        <Label htmlFor="branch">Branch</Label>
-        <Input
-          id="branch"
-          name="branch"
-          placeholder="e.g., Computer Science"
-          value={formData.branch}
-          onChange={handleChange}
-          required
-          autoComplete="off"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="branch">Branch</Label>
+          <Input
+            id="branch"
+            name="branch"
+            placeholder="e.g., Computer Science"
+            value={formData.branch}
+            onChange={handleChange}
+            required
+            autoComplete="off"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="gender">Gender</Label>
+          <Select
+            value={formData.gender}
+            onValueChange={(value) => handleSelectChange("gender", value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </>
   );
