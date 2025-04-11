@@ -1,59 +1,8 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
-
-// Define user roles
-export type UserRole = 'admin' | 'teacher' | 'student';
-
-// Define user interface
-export interface User {
-  id: string;
-  name: string;
-  role: UserRole;
-  password?: string;
-  department?: string;
-  rollNo?: string;
-  program?: 'BTech' | 'MTech';
-  branch?: string;
-  gender?: 'male' | 'female' | 'other';
-  email?: string;
-  github?: string;
-  linkedin?: string;
-  phone?: string;
-  address?: string;
-  profilePic?: string;
-}
-
-// Sample users for development
-const SAMPLE_USERS = {
-  admin: {
-    id: 'rishil',
-    name: 'Rishil (Admin)',
-    role: 'admin' as UserRole,
-    password: 'rishil12', // Fixed admin password
-  },
-  teacher1: {
-    id: 'teacher1',
-    name: 'Dr. Sugawara',
-    role: 'teacher' as UserRole,
-    department: 'Computer Science',
-    gender: 'male',
-    password: 'password123',
-    email: 'sugawara@svu.edu',
-    phone: '9876543210',
-  },
-  student1: {
-    id: 'student1',
-    name: 'Hinata Shoyo',
-    role: 'student' as UserRole,
-    rollNo: 'CS2021001',
-    program: 'BTech' as 'BTech',
-    branch: 'Computer Science',
-    password: 'password123',
-    email: 'hinata@svu.edu',
-    github: 'github.com/hinata',
-  },
-};
+import { User, UserRole } from '@/types/user';
+import { getSampleUsers } from '@/utils/sampleData';
+import { storeUser, retrieveUser, storeUsers, retrieveUsers } from '@/utils/storage';
 
 interface AuthContextType {
   user: User | null;
@@ -71,39 +20,34 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize users from localStorage or use default sample users
   const [users, setUsers] = useState<User[]>(() => {
-    const storedUsers = localStorage.getItem('svu_users');
-    return storedUsers ? JSON.parse(storedUsers) : [
-      SAMPLE_USERS.admin,
-      SAMPLE_USERS.teacher1,
-      SAMPLE_USERS.student1,
-    ];
+    return retrieveUsers() || getSampleUsers();
   });
   
   const [user, setUser] = useState<User | null>(null);
 
   // Check for stored user on initial load
   useEffect(() => {
-    const storedUser = localStorage.getItem('svu_user');
+    const storedUser = retrieveUser();
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
     }
   }, []);
 
   // Save users to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('svu_users', JSON.stringify(users));
+    storeUsers(users);
   }, [users]);
 
   const login = (id: string, password: string, role: UserRole): boolean => {
-    // Always log to console for debugging
     console.log(`Attempting login with id: ${id}, role: ${role}`);
     console.log('Available users:', users);
     
-    // Admin authentication - always use the fixed credentials
+    // Admin authentication
+    const adminUser = users.find(u => u.id === 'rishil' && u.role === 'admin');
     if (role === 'admin' && id === 'rishil' && password === 'rishil12') {
       console.log('Admin login successful');
-      setUser(SAMPLE_USERS.admin);
-      localStorage.setItem('svu_user', JSON.stringify(SAMPLE_USERS.admin));
+      setUser(adminUser!);
+      storeUser(adminUser!);
       toast.success("Welcome, Admin!");
       return true;
     }
@@ -115,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (foundUser && foundUser.password === password) {
       console.log('User login successful');
       setUser(foundUser);
-      localStorage.setItem('svu_user', JSON.stringify(foundUser));
+      storeUser(foundUser);
       toast.success(`Welcome, ${foundUser.name}!`);
       return true;
     }
@@ -153,12 +97,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         program: userData.program as "BTech" | "MTech" || "BTech",
         branch: userData.branch || "",
       } : {}),
+      email: userData.email || "",
+      github: userData.github || "",
+      linkedin: userData.linkedin || "",
+      phone: userData.phone || "",
+      address: userData.address || "",
+      profilePic: userData.profilePic || "",
     };
     
     console.log('Creating new user:', newUser);
     const newUsers = [...users, newUser];
     setUsers(newUsers);
-    localStorage.setItem('svu_users', JSON.stringify(newUsers));
+    storeUsers(newUsers);
     toast.success(`New ${userData.role} account created successfully!`);
   };
 
@@ -176,20 +126,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     setUsers(updatedUsers);
-    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    storeUsers(updatedUsers);
     
     // If the current user is updating their own password, update the stored user too
     if (user && user.id === userId) {
       const updatedUser = { ...user, password: newPassword };
       setUser(updatedUser);
-      localStorage.setItem('svu_user', JSON.stringify(updatedUser));
+      storeUser(updatedUser);
     }
     
     toast.success("Password updated successfully.");
     return true;
   };
 
-  // Add deleteUser function
   const deleteUser = (userId: string): boolean => {
     // Prevent deleting admin account
     if (userId === 'rishil') {
@@ -205,12 +154,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     const updatedUsers = users.filter(u => u.id !== userId);
     setUsers(updatedUsers);
-    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    storeUsers(updatedUsers);
     
+    toast.success("User deleted successfully.");
     return true;
   };
 
-  // Add updateUserProfile function
   const updateUserProfile = (userId: string, updatedData: Partial<User>): boolean => {
     const userIndex = users.findIndex(u => u.id === userId);
     if (userIndex === -1) {
@@ -225,13 +174,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     setUsers(updatedUsers);
-    localStorage.setItem('svu_users', JSON.stringify(updatedUsers));
+    storeUsers(updatedUsers);
     
     // If the current user is updating their own profile, update the stored user too
     if (user && user.id === userId) {
       const updatedUser = { ...user, ...updatedData };
       setUser(updatedUser);
-      localStorage.setItem('svu_user', JSON.stringify(updatedUser));
+      storeUser(updatedUser);
     }
     
     toast.success("Profile updated successfully.");
