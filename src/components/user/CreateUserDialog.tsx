@@ -23,6 +23,16 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!formData.id) {
+      toast.error("User ID is required");
+      return;
+    }
+    
+    if (!formData.name) {
+      toast.error("Name is required");
+      return;
+    }
+    
     if (!formData.password) {
       toast.error("Password is required");
       return;
@@ -33,20 +43,26 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
       return;
     }
     
+    if (role === "teacher" && !formData.department) {
+      toast.error("Department is required for teachers");
+      return;
+    }
+    
+    if (role === "student") {
+      if (!formData.rollNo) {
+        toast.error("Roll Number is required for students");
+        return;
+      }
+      if (!formData.branch) {
+        toast.error("Branch is required for students");
+        return;
+      }
+    }
+    
     const userData = {
-      id: formData.id,
-      name: formData.name,
+      ...formData,
       role,
-      password: formData.password,
       gender: formData.gender as "male" | "female" | "other",
-      ...(role === "teacher" ? {
-        department: formData.department,
-      } : {}),
-      ...(role === "student" ? {
-        rollNo: formData.rollNo,
-        program: formData.program as "BTech" | "MTech",
-        branch: formData.branch,
-      } : {}),
     };
     
     createUser(userData);
@@ -59,8 +75,8 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
       <DialogContent className="card-modern sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create New User</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-cherry-text">Create New User</DialogTitle>
+            <DialogDescription className="text-cherry-rosegold">
               Add a new teacher or student account to the system.
             </DialogDescription>
           </DialogHeader>
@@ -85,7 +101,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
             }
           </div>
           <DialogFooter>
-            <Button type="submit" className="btn-haikyu">Create User</Button>
+            <Button type="submit" className="btn-cherry">Create User</Button>
           </DialogFooter>
         </form>
       </DialogContent>

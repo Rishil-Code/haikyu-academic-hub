@@ -41,35 +41,35 @@ export function LoginForm() {
     <form onSubmit={handleSubmit}>
       <Card className="card-modern">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold text-cherry-text">Login</CardTitle>
+          <CardDescription className="text-cherry-rosegold">
             Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="role" className="text-base">Select Role</Label>
+            <Label htmlFor="role" className="text-base text-cherry-text">Select Role</Label>
             <RadioGroup
               defaultValue={role}
               onValueChange={(value) => setRole(value as UserRole)}
               className="flex space-x-4"
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="admin" id="admin" />
-                <Label htmlFor="admin">Administrator</Label>
+                <RadioGroupItem value="admin" id="admin" className="text-cherry-pink border-cherry-pink" />
+                <Label htmlFor="admin" className="text-cherry-text">Administrator</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="teacher" id="teacher" />
-                <Label htmlFor="teacher">Teacher</Label>
+                <RadioGroupItem value="teacher" id="teacher" className="text-cherry-pink border-cherry-pink" />
+                <Label htmlFor="teacher" className="text-cherry-text">Teacher</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="student" id="student" />
-                <Label htmlFor="student">Student</Label>
+                <RadioGroupItem value="student" id="student" className="text-cherry-pink border-cherry-pink" />
+                <Label htmlFor="student" className="text-cherry-text">Student</Label>
               </div>
             </RadioGroup>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="userId" className="text-base">User ID</Label>
+            <Label htmlFor="userId" className="text-base text-cherry-text">User ID</Label>
             <Input
               id="userId"
               placeholder={role === 'admin' ? 'rishil' : `${role}1`}
@@ -82,7 +82,7 @@ export function LoginForm() {
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-base">Password</Label>
+              <Label htmlFor="password" className="text-base text-cherry-text">Password</Label>
             </div>
             <div className="relative">
               <Input
@@ -97,7 +97,7 @@ export function LoginForm() {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-cherry-rosegold hover:text-cherry-hoverPink"
                 onClick={togglePasswordVisibility}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -105,7 +105,7 @@ export function LoginForm() {
             </div>
           </div>
           {role === 'admin' && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-cherry-rosegold">
               Administrator credentials: ID: rishil, Password: rishil12
             </p>
           )}
@@ -113,7 +113,7 @@ export function LoginForm() {
         <CardFooter>
           <Button
             type="submit"
-            className="w-full btn-haikyu"
+            className="w-full btn-cherry"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}

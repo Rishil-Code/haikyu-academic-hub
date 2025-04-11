@@ -19,7 +19,7 @@ export const useUserForm = () => {
     name: "",
     password: "",
     department: "",
-    gender: "",
+    gender: "male", // Default gender
     rollNo: "",
     program: "BTech",
     branch: "",
@@ -44,7 +44,7 @@ export const useUserForm = () => {
       name: "",
       password: "",
       department: "",
-      gender: "",
+      gender: "male",
       rollNo: "",
       program: "BTech",
       branch: "",

@@ -3,60 +3,62 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 340 100% 97%;
+    --foreground: 222 14% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 14% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 14% 18%;
 
-    --primary: 262 83% 58%;
+    --primary: 348 47% 83%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 260 30% 95%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 348 15% 93%;
+    --secondary-foreground: 222 14% 18%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 348 15% 93%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 262 83% 58%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 348 47% 83%;
+    --accent-foreground: 222 14% 18%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 348 20% 90%;
+    --input: 348 20% 90%;
+    --ring: 348 47% 83%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    --sidebar-background: 260 42% 25%;
+    --sidebar-background: 348 30% 28%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 257 33% 30%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 257 33% 30%;
-    --sidebar-ring: 257 91% 59.8%;
+    --sidebar-primary: 348 47% 83%;
+    --sidebar-primary-foreground: 222 14% 18%;
+    --sidebar-accent: 348 20% 35%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 348 20% 35%;
+    --sidebar-ring: 348 60% 76%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 14% 18%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222 14% 18%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 14% 18%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 348 47% 83%;
+    --primary-foreground: 222 14% 18%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -74,14 +76,14 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    --sidebar-background: 256 42% 25%;
+    --sidebar-background: 348 30% 25%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 257 33% 30%;
+    --sidebar-primary: 348 47% 83%;
+    --sidebar-primary-foreground: 222 14% 18%;
+    --sidebar-accent: 348 20% 35%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 257 33% 30%;
-    --sidebar-ring: 257 91% 59.8%;
+    --sidebar-border: 348 20% 35%;
+    --sidebar-ring: 348 60% 76%;
   }
 }
 
@@ -91,49 +93,74 @@
   }
 
   body {
-    @apply bg-background text-foreground dark;
+    @apply bg-background text-foreground dark font-nunito;
   }
 }
 
 @layer components {
-  .volleyball-pattern {
-    background-color: #ffffff;
-    background-image: radial-gradient(circle, transparent 12px, #8b5cf6 12px, #8b5cf6 15px, transparent 15px);
-    background-size: 60px 60px;
-    background-position: 0 0, 30px 30px;
+  .cherry-petals-bg {
+    background-color: #fff0f5;
+    background-image: radial-gradient(#fadadd 2px, transparent 2px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
   }
   
-  .haikyu-card {
-    @apply bg-white rounded-xl shadow-md border-l-4 border-indigo-500 transition-all duration-300 hover:shadow-lg p-6;
+  .cherry-card {
+    @apply bg-cherry-white rounded-2xl shadow-md border border-cherry-pink/20 transition-all duration-300 hover:shadow-lg p-6;
   }
   
-  .btn-haikyu {
-    @apply bg-indigo-600 text-white font-medium py-2.5 px-5 rounded-xl hover:bg-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg;
+  .btn-cherry {
+    @apply bg-cherry-pink text-cherry-text font-medium py-2.5 px-5 rounded-xl hover:bg-cherry-hoverPink transition-all duration-200 shadow-md hover:shadow-lg;
   }
 
-  .purple-gradient-bg {
-    @apply bg-gradient-to-br from-purple-800 via-purple-700 to-indigo-800;
+  .cherry-gradient-bg {
+    @apply bg-gradient-to-br from-cherry-background via-cherry-light to-cherry-white;
   }
   
-  .purple-card {
-    @apply bg-gradient-to-br from-indigo-800/90 to-purple-800/90 rounded-xl shadow-md border border-indigo-500/30 transition-all duration-300 hover:shadow-lg p-6;
+  .cherry-card-soft {
+    @apply bg-gradient-to-br from-cherry-white/90 to-cherry-light/90 rounded-2xl shadow-md border border-cherry-pink/20 transition-all duration-300 hover:shadow-lg p-6;
   }
   
   .input-field {
-    @apply rounded-xl py-2.5 px-4 border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all;
+    @apply rounded-xl py-2.5 px-4 border border-cherry-pink/30 focus:border-cherry-rosegold focus:ring focus:ring-cherry-pink/20 focus:ring-opacity-50 transition-all;
   }
   
   .card-modern {
-    @apply bg-white/95 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-lg p-6 transition-all duration-300;
+    @apply bg-cherry-white/95 backdrop-blur-sm rounded-2xl border border-cherry-light shadow-lg p-6 transition-all duration-300;
+  }
+
+  .cherry-sidebar {
+    @apply bg-gradient-to-br from-cherry-rosegold to-cherry-rosegold/80;
   }
 }
 
-@keyframes bounce-slow {
+/* Custom animations */
+@keyframes float-petals {
   0%, 100% {
-    transform: translateY(0);
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(5px, 5px) rotate(5deg);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translate(0, 10px) rotate(0deg);
+  }
+  75% {
+    transform: translate(-5px, 5px) rotate(-5deg);
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10%) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(720deg);
+    opacity: 0;
   }
 }
 
@@ -159,18 +186,13 @@
   }
 }
 
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
 @layer utilities {
-  .animate-bounce-slow {
-    animation: bounce-slow 3s ease-in-out infinite;
+  .animate-float-petals {
+    animation: float-petals 6s ease-in-out infinite;
+  }
+  
+  .animate-petal-fall {
+    animation: petal-fall 10s linear forwards;
   }
   
   .animate-fade-in {
@@ -181,8 +203,8 @@
     animation: slide-in-right 0.8s ease-out forwards;
   }
   
-  .animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
+  .font-nunito {
+    font-family: 'Nunito', sans-serif;
   }
   
   .text-shadow {
@@ -192,4 +214,71 @@
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+}
+
+/* Cherry Blossom Petals Animation */
+.cherry-petal {
+  position: fixed;
+  top: -10%;
+  z-index: 0;
+  width: 15px;
+  height: 15px;
+  background: #FADADD;
+  border-radius: 150% 0 150% 0;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.cherry-petal:nth-child(1) {
+  left: 10%;
+  animation: petal-fall 12s linear infinite;
+  animation-delay: 0s;
+}
+
+.cherry-petal:nth-child(2) {
+  left: 20%;
+  animation: petal-fall 14s linear infinite;
+  animation-delay: 2s;
+}
+
+.cherry-petal:nth-child(3) {
+  left: 30%;
+  animation: petal-fall 10s linear infinite;
+  animation-delay: 4s;
+}
+
+.cherry-petal:nth-child(4) {
+  left: 40%;
+  animation: petal-fall 15s linear infinite;
+  animation-delay: 0s;
+}
+
+.cherry-petal:nth-child(5) {
+  left: 50%;
+  animation: petal-fall 11s linear infinite;
+  animation-delay: 7s;
+}
+
+.cherry-petal:nth-child(6) {
+  left: 60%;
+  animation: petal-fall 13s linear infinite;
+  animation-delay: 3s;
+}
+
+.cherry-petal:nth-child(7) {
+  left: 70%;
+  animation: petal-fall 16s linear infinite;
+  animation-delay: 0s;
+}
+
+.cherry-petal:nth-child(8) {
+  left: 80%;
+  animation: petal-fall 9s linear infinite;
+  animation-delay: 5s;
+}
+
+.cherry-petal:nth-child(9) {
+  left: 90%;
+  animation: petal-fall 12s linear infinite;
+  animation-delay: 2s;
 }
