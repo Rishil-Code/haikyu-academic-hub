@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,8 +57,8 @@ export default function Projects() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">My Projects</h1>
-              <p className="text-gray-500 dark:text-gray-400">
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-4 py-1 rounded-full inline-block">My Projects</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">
                 Manage your academic and personal projects
               </p>
             </div>
@@ -72,14 +72,14 @@ export default function Projects() {
               <DialogContent className="sakura-card sm:max-w-[550px]">
                 <form onSubmit={handleSubmit}>
                   <DialogHeader>
-                    <DialogTitle>Add New Project</DialogTitle>
+                    <DialogTitle className="text-gray-800 dark:text-white">Add New Project</DialogTitle>
                     <DialogDescription>
                       Enter details about your academic or personal project
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="space-y-2">
-                      <Label htmlFor="title">Project Title</Label>
+                      <Label htmlFor="title" className="text-gray-800 dark:text-gray-200">Project Title</Label>
                       <Input
                         id="title"
                         name="title"
@@ -91,7 +91,7 @@ export default function Projects() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="description">Project Description</Label>
+                      <Label htmlFor="description" className="text-gray-800 dark:text-gray-200">Project Description</Label>
                       <Textarea
                         id="description"
                         name="description"
@@ -105,7 +105,7 @@ export default function Projects() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="startDate">Start Date</Label>
+                        <Label htmlFor="startDate" className="text-gray-800 dark:text-gray-200">Start Date</Label>
                         <Input
                           id="startDate"
                           name="startDate"
@@ -117,7 +117,7 @@ export default function Projects() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="endDate">End Date</Label>
+                        <Label htmlFor="endDate" className="text-gray-800 dark:text-gray-200">End Date</Label>
                         <Input
                           id="endDate"
                           name="endDate"
@@ -141,13 +141,13 @@ export default function Projects() {
           <div className="grid gap-6 md:grid-cols-2">
             {userProjects.length > 0 ? (
               userProjects.map(project => (
-                <Card key={project.id} className="sakura-card overflow-hidden">
-                  <CardHeader className="pb-2">
+                <Card key={project.id} className="sakura-card overflow-hidden hover:shadow-lg transition-all duration-300">
+                  <CardHeader className="pb-2 bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center space-x-2">
                           <Award className="h-5 w-5 text-[#D6A4A4]" />
-                          <CardTitle className="text-xl">{project.title}</CardTitle>
+                          <CardTitle className="text-xl text-gray-800 dark:text-gray-100">{project.title}</CardTitle>
                         </div>
                         <CardDescription className="flex items-center text-sm mt-1">
                           <Calendar className="h-3 w-3 mr-1" />
@@ -162,7 +162,7 @@ export default function Projects() {
                   <CardContent className="pb-2">
                     <p className="text-sm text-gray-700 dark:text-gray-300">{project.description}</p>
                   </CardContent>
-                  <CardFooter className="border-t pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                  <CardFooter className="border-t pt-4 text-xs bg-[#F4F4F9]/30 dark:bg-[#2B2D42]/20 text-gray-500 dark:text-gray-400">
                     Added on {format(new Date(), 'PPP')}
                   </CardFooter>
                 </Card>
@@ -171,15 +171,15 @@ export default function Projects() {
               <div className="md:col-span-2">
                 <Card className="sakura-card">
                   <CardContent className="p-8 text-center">
-                    <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
-                      <Award className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+                    <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                      <Award className="h-8 w-8 text-[#D6A4A4]/70" />
                     </div>
-                    <h3 className="text-lg font-medium mb-2">No projects yet</h3>
-                    <p className="text-muted-foreground mb-4">
+                    <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-3 py-1 rounded-full inline-block">No projects yet</h3>
+                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                       Add your first project to showcase your skills and achievements
                     </p>
                     <DialogTrigger asChild>
-                      <Button className="btn-sakura">
+                      <Button className="btn-sakura px-6 py-3">
                         <Plus className="mr-2 h-4 w-4" />
                         Add Your First Project
                       </Button>

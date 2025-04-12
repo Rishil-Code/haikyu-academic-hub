@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
-import { GraduationCap, BookOpen, Shield, Check } from "lucide-react";
+import { GraduationCap, BookOpen, Shield, Check, ArrowLeft } from "lucide-react";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { UserManagementHeader } from "@/components/user/UserManagementHeader";
 import { TeacherList } from "@/components/user/TeacherList";
@@ -14,14 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-
-// Define the admin privileges interface
-interface AdminPrivileges {
-  canManageUsers: boolean;
-  canViewAllRecords: boolean;
-  canGradeStudents: boolean;
-  canAccessAnalytics: boolean;
-}
+import { User, AdminPrivileges } from "@/types/user";
 
 // Update user interface to include privileges
 interface UserWithPrivileges extends User {
@@ -39,6 +32,7 @@ export default function UserManagement() {
     canGradeStudents: false,
     canAccessAnalytics: false,
   });
+  const [showUserList, setShowUserList] = useState(true);
 
   const teacherUsers = users.filter(user => user.role === "teacher") as UserWithPrivileges[];
   const studentUsers = users.filter(user => user.role === "student") as UserWithPrivileges[];
@@ -52,6 +46,7 @@ export default function UserManagement() {
       canGradeStudents: false,
       canAccessAnalytics: false,
     });
+    setShowUserList(false);
     setPrivilegesOpen(true);
   };
 
@@ -70,8 +65,12 @@ export default function UserManagement() {
     });
 
     toast.success(`Updated admin privileges for ${selectedUser.name}`);
-    setPrivilegesOpen(false);
+    setShowUserList(true);
+  };
+
+  const goBackToUserList = () => {
     setSelectedUser(null);
+    setShowUserList(true);
   };
 
   return (
@@ -136,13 +135,23 @@ export default function UserManagement() {
 
             {selectedUser ? (
               <>
-                <div className="bg-[#F4F4F9] dark:bg-[#282836] p-3 rounded-lg mb-4">
-                  <h3 className="font-medium dark:text-white">Editing Privileges for {selectedUser.name}</h3>
-                  <p className="text-sm text-[#6D6875] dark:text-gray-400">Role: {selectedUser.role}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-[#F4F4F9] dark:bg-[#282836] p-3 rounded-lg">
+                    <h3 className="font-medium dark:text-white">Editing Privileges for {selectedUser.name}</h3>
+                    <p className="text-sm text-[#6D6875] dark:text-gray-400">Role: {selectedUser.role}</p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={goBackToUserList}
+                    className="flex items-center"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to List
+                  </Button>
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
                     <div>
                       <h4 className="font-medium dark:text-white">User Management Access</h4>
                       <p className="text-sm text-[#6D6875] dark:text-gray-400">Allow creation and management of users</p>
@@ -155,7 +164,7 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
                     <div>
                       <h4 className="font-medium dark:text-white">Student Records Access</h4>
                       <p className="text-sm text-[#6D6875] dark:text-gray-400">View all student academic records</p>
@@ -168,7 +177,7 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
                     <div>
                       <h4 className="font-medium dark:text-white">Grading Access</h4>
                       <p className="text-sm text-[#6D6875] dark:text-gray-400">Grade and evaluate student performance</p>
@@ -181,7 +190,7 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
                     <div>
                       <h4 className="font-medium dark:text-white">Analytics Access</h4>
                       <p className="text-sm text-[#6D6875] dark:text-gray-400">Access data insights and analytics</p>
@@ -196,7 +205,7 @@ export default function UserManagement() {
                 </div>
                 
                 <DialogFooter>
-                  <Button onClick={() => setPrivilegesOpen(false)} variant="outline">Cancel</Button>
+                  <Button onClick={goBackToUserList} variant="outline">Cancel</Button>
                   <Button onClick={handleSavePrivileges} className="btn-sakura">
                     <Check className="mr-2 h-4 w-4" /> Save Privileges
                   </Button>

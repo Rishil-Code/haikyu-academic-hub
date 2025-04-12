@@ -29,3 +29,13 @@ export interface User {
   profilePic?: string;
   adminPrivileges?: AdminPrivileges;
 }
+
+// Define certificate interface
+export interface Certificate {
+  id: string;
+  userId: string;
+  name: string;
+  issuingAuthority: string;
+  issueDate: string;
+  fileUrl?: string;
+}

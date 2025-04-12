@@ -1,109 +1,59 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
+
+// Pages
+import Login from "@/pages/Login";
+import Dashboard from "@/pages/Dashboard";
+import AccountSettings from "@/pages/AccountSettings";
+import StudentRecords from "@/pages/StudentRecords";
+import GradeManagement from "@/pages/GradeManagement";
+import UserManagement from "@/pages/UserManagement";
+import Projects from "@/pages/Projects";
+import Internships from "@/pages/Internships";
+import Results from "@/pages/Results";
+import NotFound from "@/pages/NotFound";
+import Certificates from "@/pages/Certificates";
+
+// Contexts
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AcademicProvider } from "@/contexts/AcademicContext";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { CertificateProvider } from "@/contexts/CertificateContext";
 
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import UserManagement from "./pages/UserManagement";
-import GradeManagement from "./pages/GradeManagement";
-import StudentRecords from "./pages/StudentRecords";
-import Results from "./pages/Results";
-import Projects from "./pages/Projects";
-import Internships from "./pages/Internships";
-import AccountSettings from "./pages/AccountSettings";
-import NotFound from "./pages/NotFound";
+// Style
+import "./index.css";
+import "./App.css";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+function App() {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="light">
       <AuthProvider>
         <AcademicProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/users" 
-                element={
-                  <ProtectedRoute allowedRoles={["admin"]}>
-                    <UserManagement />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/grades" 
-                element={
-                  <ProtectedRoute allowedRoles={["teacher", "admin"]}>
-                    <GradeManagement />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/students" 
-                element={
-                  <ProtectedRoute allowedRoles={["teacher", "admin"]}>
-                    <StudentRecords />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/results" 
-                element={
-                  <ProtectedRoute allowedRoles={["student"]}>
-                    <Results />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/projects" 
-                element={
-                  <ProtectedRoute allowedRoles={["student"]}>
-                    <Projects />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/internships" 
-                element={
-                  <ProtectedRoute allowedRoles={["student"]}>
-                    <Internships />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/settings" 
-                element={
-                  <ProtectedRoute>
-                    <AccountSettings />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <CertificateProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/settings" element={<AccountSettings />} />
+                <Route path="/students" element={<StudentRecords />} />
+                <Route path="/grades" element={<GradeManagement />} />
+                <Route path="/users" element={<UserManagement />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/internships" element={<Internships />} />
+                <Route path="/certificates" element={<Certificates />} />
+                <Route path="/results" element={<Results />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+            <Toaster position="top-center" richColors />
+          </CertificateProvider>
         </AcademicProvider>
       </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </ThemeProvider>
+  );
+}
 
 export default App;

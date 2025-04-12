@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { GraduationCap } from "lucide-react";
 
 export default function Results() {
   const { user } = useAuth();
@@ -209,7 +210,7 @@ export default function Results() {
             <Card className="sakura-card">
               <CardContent className="p-8 text-center">
                 <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
-                  <Award className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+                  <GraduationCap className="h-6 w-6 text-gray-400 dark:text-gray-500" />
                 </div>
                 <h3 className="text-lg font-medium mb-2 dark:text-white">No academic records found</h3>
                 <p className="text-muted-foreground mb-4">

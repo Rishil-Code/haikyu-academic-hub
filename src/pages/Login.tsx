@@ -47,12 +47,12 @@ export default function Login() {
             <img src={volleyballLogo} alt="SVU Logo" className="h-12 w-12" />
           </div>
         </div>
-        <div className="px-4 py-2 rounded-full bg-[#2B2D42]/10 dark:bg-white/10 backdrop-blur-sm inline-block mb-2">
-          <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white text-shadow-lg">
+        <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 backdrop-blur-sm inline-block mb-2">
+          <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white">
             SVU Student Management
           </h1>
         </div>
-        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300">Sri Venkateswara University College</p>
+        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300 bg-white/30 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">Sri Venkateswara University College</p>
       </div>
       
       <div className="w-full max-w-md animate-fade-in relative z-10">
@@ -61,7 +61,7 @@ export default function Login() {
       
       <div className="mt-12 text-center relative z-10">
         <div className="w-32 h-1 bg-[#D6A4A4]/30 mx-auto mb-4 rounded-full"></div>
-        <p className="text-sm text-[#6D6875] dark:text-gray-400">
+        <p className="text-sm text-[#6D6875] dark:text-gray-400 bg-white/30 dark:bg-[#282836]/70 px-3 py-1 rounded-full inline-block">
           Powered by SVU © {new Date().getFullYear()}
         </p>
       </div>

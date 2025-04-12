@@ -59,7 +59,7 @@ export default function Internships() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">My Internships</h1>
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-4 py-1 rounded-full inline-block">My Internships</h1>
               <p className="text-gray-500 dark:text-gray-400 mt-1">Keep track of your professional experiences</p>
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -72,7 +72,7 @@ export default function Internships() {
               <DialogContent className="sakura-card sm:max-w-[550px]">
                 <form onSubmit={handleSubmit}>
                   <DialogHeader>
-                    <DialogTitle>Add New Internship</DialogTitle>
+                    <DialogTitle className="text-gray-800 dark:text-white">Add New Internship</DialogTitle>
                     <DialogDescription>
                       Enter details about your internship experience
                     </DialogDescription>
@@ -80,7 +80,7 @@ export default function Internships() {
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="company">Company Name</Label>
+                        <Label htmlFor="company" className="text-gray-800 dark:text-gray-200">Company Name</Label>
                         <Input
                           id="company"
                           name="company"
@@ -92,7 +92,7 @@ export default function Internships() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="role">Your Role</Label>
+                        <Label htmlFor="role" className="text-gray-800 dark:text-gray-200">Your Role</Label>
                         <Input
                           id="role"
                           name="role"
@@ -105,7 +105,7 @@ export default function Internships() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="description">Description of Work</Label>
+                      <Label htmlFor="description" className="text-gray-800 dark:text-gray-200">Description of Work</Label>
                       <Textarea
                         id="description"
                         name="description"
@@ -119,7 +119,7 @@ export default function Internships() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="startDate">Start Date</Label>
+                        <Label htmlFor="startDate" className="text-gray-800 dark:text-gray-200">Start Date</Label>
                         <Input
                           id="startDate"
                           name="startDate"
@@ -131,7 +131,7 @@ export default function Internships() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="endDate">End Date</Label>
+                        <Label htmlFor="endDate" className="text-gray-800 dark:text-gray-200">End Date</Label>
                         <Input
                           id="endDate"
                           name="endDate"
@@ -156,12 +156,12 @@ export default function Internships() {
             {userInternships.length > 0 ? (
               userInternships.map(internship => (
                 <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300">
-                  <CardHeader className="pb-2">
+                  <CardHeader className="pb-2 bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center space-x-2">
                           <Building2 className="h-5 w-5 text-[#D6A4A4]" />
-                          <CardTitle className="text-xl">{internship.company}</CardTitle>
+                          <CardTitle className="text-xl text-gray-800 dark:text-gray-100">{internship.company}</CardTitle>
                         </div>
                         <CardDescription className="text-sm font-medium mt-1">
                           {internship.role}
@@ -179,7 +179,7 @@ export default function Internships() {
                   <CardContent className="pb-2">
                     <p className="text-sm text-gray-700 dark:text-gray-300">{internship.description}</p>
                   </CardContent>
-                  <CardFooter className="border-t pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                  <CardFooter className="border-t pt-4 text-xs bg-[#F4F4F9]/30 dark:bg-[#2B2D42]/20 text-gray-500 dark:text-gray-400">
                     Added on {format(new Date(), 'PPP')}
                   </CardFooter>
                 </Card>
@@ -191,7 +191,7 @@ export default function Internships() {
                     <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                       <Briefcase className="h-8 w-8 text-[#D6A4A4]/70" />
                     </div>
-                    <h3 className="text-xl font-medium mb-2">No internships yet</h3>
+                    <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-3 py-1 rounded-full inline-block">No internships yet</h3>
                     <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                       Add your first internship to showcase your professional experience to potential employers and track your career growth.
                     </p>

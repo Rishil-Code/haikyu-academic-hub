@@ -11,7 +11,8 @@ import {
   Briefcase, 
   FileCheck, 
   Settings, 
-  LogOut
+  LogOut,
+  Certificate
 } from "lucide-react";
 
 interface SidebarItemProps {
@@ -28,8 +29,8 @@ const SidebarItem = ({ icon: Icon, label, href, active }: SidebarItemProps) => {
       className={cn(
         "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all",
         active 
-          ? "bg-haikyu-orange text-white" 
-          : "text-gray-700 hover:bg-haikyu-orange/20"
+          ? "bg-[#D6A4A4] text-white dark:bg-[#D6A4A4] dark:text-white" 
+          : "text-gray-700 dark:text-gray-300 hover:bg-[#D6A4A4]/20 dark:hover:bg-[#D6A4A4]/20"
       )}
     >
       <Icon className="h-4 w-4" />
@@ -60,12 +61,14 @@ export function SidebarMenu() {
     const teacherItems = [
       { icon: BookOpen, label: "Student Records", href: "/students" },
       { icon: FileCheck, label: "Grade Management", href: "/grades" },
+      { icon: Certificate, label: "Certificates", href: "/certificates" },
     ];
     
     const studentItems = [
       { icon: BookOpen, label: "Results", href: "/results" },
       { icon: Award, label: "Projects", href: "/projects" },
       { icon: Briefcase, label: "Internships", href: "/internships" },
+      { icon: Certificate, label: "Certificates", href: "/certificates" },
     ];
     
     switch (user.role) {
@@ -94,10 +97,10 @@ export function SidebarMenu() {
         />
       ))}
       
-      <div className="pt-4 mt-4 border-t border-gray-200">
+      <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={() => logout()}
-          className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
+          className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
         >
           <LogOut className="h-4 w-4" />
           <span>Logout</span>
