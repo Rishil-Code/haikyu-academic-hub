@@ -17,7 +17,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuth();
 
   return (
-    <div className="flex min-h-screen cherry-gradient-bg overflow-hidden relative">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#F4F4F9] to-white overflow-hidden relative">
       {/* Cherry Blossom Petals (fewer for the dashboard) */}
       <div className="cherry-petal"></div>
       <div className="cherry-petal"></div>
@@ -34,11 +34,11 @@ export function MainLayout({ children }: MainLayoutProps) {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 cherry-sidebar border-r border-cherry-pink/30 shadow-lg transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 w-72 sakura-sidebar border-r border-[#E2E2E7] shadow-lg transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex h-16 items-center justify-between px-4 border-b border-cherry-pink/30">
+        <div className="flex h-16 items-center justify-between px-4 border-b border-[#E2E2E7]/30">
           <Link to="/dashboard" className="flex items-center space-x-2">
             <div className="h-9 w-9 rounded-full bg-white/20 flex items-center justify-center text-white font-bold">
               <img src={volleyballLogo} alt="SVU Logo" className="h-6 w-6" />
@@ -62,7 +62,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
       <div className="flex flex-col flex-1 w-full overflow-hidden">
         {/* Header */}
-        <header className="h-16 bg-cherry-rosegold/80 backdrop-blur-sm border-b border-cherry-pink/30 shadow-sm flex items-center justify-between px-4 lg:px-6">
+        <header className="h-16 bg-[#6D6875]/80 backdrop-blur-sm border-b border-[#E2E2E7]/30 shadow-sm flex items-center justify-between px-4 lg:px-6">
           <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
@@ -83,7 +83,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                 {user.name} <span className="text-xs text-white/70 capitalize">({user.role})</span>
               </div>
               <div className="h-9 w-9 rounded-full bg-white/20 text-white flex items-center justify-center text-sm font-medium shadow-inner">
-                {user.name.charAt(0).toUpperCase()}
+                {user?.name?.charAt(0).toUpperCase()}
               </div>
             </div>
           )}

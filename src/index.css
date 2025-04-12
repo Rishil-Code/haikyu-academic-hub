@@ -1,50 +1,50 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 340 100% 97%;
-    --foreground: 222 14% 18%;
+    --background: 240 33% 97%;
+    --foreground: 222 20% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 14% 18%;
+    --card-foreground: 222 20% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 14% 18%;
+    --popover-foreground: 222 20% 18%;
 
-    --primary: 348 47% 83%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 348 29% 74%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 348 15% 93%;
-    --secondary-foreground: 222 14% 18%;
+    --secondary: 289 9% 44%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 348 15% 93%;
+    --muted: 348 5% 93%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 348 47% 83%;
-    --accent-foreground: 222 14% 18%;
+    --accent: 348 29% 74%;
+    --accent-foreground: 222 20% 18%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 348 20% 90%;
-    --input: 348 20% 90%;
-    --ring: 348 47% 83%;
+    --border: 240 10% 90%;
+    --input: 240 10% 90%;
+    --ring: 348 29% 74%;
 
     --radius: 1rem;
 
-    --sidebar-background: 348 30% 28%;
+    --sidebar-background: 289 9% 44%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 348 47% 83%;
-    --sidebar-primary-foreground: 222 14% 18%;
-    --sidebar-accent: 348 20% 35%;
+    --sidebar-primary: 348 29% 74%;
+    --sidebar-primary-foreground: 222 20% 18%;
+    --sidebar-accent: 290 5% 35%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 348 20% 35%;
-    --sidebar-ring: 348 60% 76%;
+    --sidebar-border: 290 5% 35%;
+    --sidebar-ring: 348 29% 74%;
   }
 
   .dark {
@@ -57,8 +57,8 @@
     --popover: 222 14% 18%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 348 47% 83%;
-    --primary-foreground: 222 14% 18%;
+    --primary: 348 29% 74%;
+    --primary-foreground: 222 20% 18%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -76,14 +76,14 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    --sidebar-background: 348 30% 25%;
+    --sidebar-background: 290 5% 30%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 348 47% 83%;
-    --sidebar-primary-foreground: 222 14% 18%;
-    --sidebar-accent: 348 20% 35%;
+    --sidebar-primary: 348 29% 74%;
+    --sidebar-primary-foreground: 222 20% 18%;
+    --sidebar-accent: 290 5% 35%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 348 20% 35%;
-    --sidebar-ring: 348 60% 76%;
+    --sidebar-border: 290 5% 35%;
+    --sidebar-ring: 348 29% 74%;
   }
 }
 
@@ -93,44 +93,56 @@
   }
 
   body {
-    @apply bg-background text-foreground dark font-nunito;
+    @apply bg-[#F4F4F9] text-[#2B2D42] font-poppins;
   }
 }
 
 @layer components {
-  .cherry-petals-bg {
-    background-color: #fff0f5;
-    background-image: radial-gradient(#fadadd 2px, transparent 2px);
+  .sakura-petals-bg {
+    background-color: #f4f4f9;
+    background-image: radial-gradient(#d6a4a4 2px, transparent 2px);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
   }
   
-  .cherry-card {
-    @apply bg-cherry-white rounded-2xl shadow-md border border-cherry-pink/20 transition-all duration-300 hover:shadow-lg p-6;
+  .sakura-card {
+    @apply bg-white rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6;
   }
   
-  .btn-cherry {
-    @apply bg-cherry-pink text-cherry-text font-medium py-2.5 px-5 rounded-xl hover:bg-cherry-hoverPink transition-all duration-200 shadow-md hover:shadow-lg;
+  .btn-sakura {
+    @apply bg-[#D6A4A4] text-white font-medium py-2.5 px-5 rounded-xl hover:bg-[#C98C8C] transition-all duration-200 shadow-md hover:shadow-lg;
   }
 
-  .cherry-gradient-bg {
-    @apply bg-gradient-to-br from-cherry-background via-cherry-light to-cherry-white;
+  .sakura-gradient-bg {
+    @apply bg-gradient-to-br from-[#F4F4F9] via-white to-white;
   }
   
-  .cherry-card-soft {
-    @apply bg-gradient-to-br from-cherry-white/90 to-cherry-light/90 rounded-2xl shadow-md border border-cherry-pink/20 transition-all duration-300 hover:shadow-lg p-6;
+  .sakura-card-soft {
+    @apply bg-gradient-to-br from-white/90 to-white/90 rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6;
   }
   
   .input-field {
-    @apply rounded-xl py-2.5 px-4 border border-cherry-pink/30 focus:border-cherry-rosegold focus:ring focus:ring-cherry-pink/20 focus:ring-opacity-50 transition-all;
+    @apply rounded-xl py-2.5 px-4 border border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring focus:ring-[#D6A4A4]/20 focus:ring-opacity-50 transition-all text-[#2B2D42];
   }
   
   .card-modern {
-    @apply bg-cherry-white/95 backdrop-blur-sm rounded-2xl border border-cherry-light shadow-lg p-6 transition-all duration-300;
+    @apply bg-white/95 backdrop-blur-sm rounded-2xl border border-[#E2E2E7] shadow-lg p-6 transition-all duration-300;
   }
 
-  .cherry-sidebar {
-    @apply bg-gradient-to-br from-cherry-rosegold to-cherry-rosegold/80;
+  .sakura-sidebar {
+    @apply bg-gradient-to-br from-[#6D6875] to-[#6D6875]/80;
+  }
+
+  .heading-text {
+    @apply text-xl font-semibold text-[#2B2D42];
+  }
+
+  .body-text {
+    @apply text-base text-[#2B2D42];
+  }
+
+  .caption-text {
+    @apply text-sm text-[#6D6875];
   }
 }
 
@@ -203,8 +215,8 @@
     animation: slide-in-right 0.8s ease-out forwards;
   }
   
-  .font-nunito {
-    font-family: 'Nunito', sans-serif;
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
   }
   
   .text-shadow {
@@ -223,9 +235,9 @@
   z-index: 0;
   width: 15px;
   height: 15px;
-  background: #FADADD;
+  background: #D6A4A4;
   border-radius: 150% 0 150% 0;
-  opacity: 0.8;
+  opacity: 0.6;
   pointer-events: none;
 }
 

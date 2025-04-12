@@ -62,6 +62,8 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
     const userData = {
       ...formData,
       role,
+      // Fix the type error by explicitly typing program as "BTech" | "MTech"
+      program: formData.program as "BTech" | "MTech",
       gender: formData.gender as "male" | "female" | "other",
     };
     
@@ -72,11 +74,11 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="card-modern sm:max-w-[425px]">
+      <DialogContent className="bg-white shadow-md rounded-2xl p-6 text-[#2B2D42]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle className="text-cherry-text">Create New User</DialogTitle>
-            <DialogDescription className="text-cherry-rosegold">
+            <DialogTitle className="text-xl font-semibold text-slate-800">Create New User</DialogTitle>
+            <DialogDescription className="text-[#6D6875]">
               Add a new teacher or student account to the system.
             </DialogDescription>
           </DialogHeader>
@@ -101,7 +103,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
             }
           </div>
           <DialogFooter>
-            <Button type="submit" className="btn-cherry">Create User</Button>
+            <Button type="submit" className="bg-[#D6A4A4] hover:bg-[#C98C8C] text-white font-medium rounded-xl px-4 py-2">Create User</Button>
           </DialogFooter>
         </form>
       </DialogContent>

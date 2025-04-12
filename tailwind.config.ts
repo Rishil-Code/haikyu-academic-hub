@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,17 +62,14 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Cherry blossom theme colors
-				cherry: {
-					background: '#FFF0F5',     // Lavender blush / cream base
-					pink: '#FADADD',           // Sakura soft pink
-					rosegold: '#B76E79',       // Rose gold
-					text: '#2E2E2E',           // Dark slate gray
-					hoverPink: '#E6A5B2',      // Slightly deeper cherry pink
-					light: '#FFDEE2',          // Soft Pink
-					peach: '#FDE1D3',          // Soft Peach
-					gray: '#F1F0FB',           // Soft Gray
-					white: '#FFFFFF',          // Pure White
+				sakura: {
+					background: '#F4F4F9',   // Soft neutral grayish-white
+					primary: '#D6A4A4',      // Muted sakura pink
+					secondary: '#6D6875',    // Dusty lavender gray
+					text: '#2B2D42',         // Rich dark slate
+					light: '#FFFFFF',        // Card background
+					hover: '#C98C8C',        // Hover state for buttons
+					border: '#E2E2E7',       // Subtle border color
 				}
 			},
 			borderRadius: {
@@ -136,6 +132,10 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'petal-fall': 'petal-fall 10s linear forwards'
+			},
+			fontFamily: {
+				inter: ['Inter', 'sans-serif'],
+				poppins: ['Poppins', 'sans-serif'],
 			}
 		}
 	},

@@ -18,7 +18,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
     <>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="id">Student ID</Label>
+          <Label htmlFor="id" className="text-[#2B2D42] font-medium">Student ID</Label>
           <Input
             id="id"
             name="id"
@@ -31,7 +31,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name" className="text-[#2B2D42] font-medium">Full Name</Label>
           <Input
             id="name"
             name="name"
@@ -45,7 +45,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password" className="text-[#2B2D42] font-medium">Password</Label>
         <div className="relative">
           <Input
             id="password"
@@ -60,7 +60,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6D6875] hover:text-[#2B2D42]"
             onClick={togglePasswordVisibility}
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -69,7 +69,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="rollNo">Roll Number</Label>
+          <Label htmlFor="rollNo" className="text-[#2B2D42] font-medium">Roll Number</Label>
           <Input
             id="rollNo"
             name="rollNo"
@@ -82,7 +82,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="program">Program</Label>
+          <Label htmlFor="program" className="text-[#2B2D42] font-medium">Program</Label>
           <Select
             value={formData.program}
             onValueChange={(value) => handleSelectChange("program", value)}
@@ -90,7 +90,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
             <SelectTrigger className="input-field">
               <SelectValue placeholder="Select program" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border border-[#E2E2E7] text-[#2B2D42]">
               <SelectItem value="BTech">BTech</SelectItem>
               <SelectItem value="MTech">MTech</SelectItem>
             </SelectContent>
@@ -99,7 +99,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="branch">Branch</Label>
+          <Label htmlFor="branch" className="text-[#2B2D42] font-medium">Branch</Label>
           <Input
             id="branch"
             name="branch"
@@ -112,7 +112,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="gender">Gender</Label>
+          <Label htmlFor="gender" className="text-[#2B2D42] font-medium">Gender</Label>
           <Select
             value={formData.gender}
             onValueChange={(value) => handleSelectChange("gender", value)}
@@ -120,7 +120,7 @@ export function StudentForm({ formData, handleChange, handleSelectChange, showPa
             <SelectTrigger className="input-field">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border border-[#E2E2E7] text-[#2B2D42]">
               <SelectItem value="male">Male</SelectItem>
               <SelectItem value="female">Female</SelectItem>
               <SelectItem value="other">Other</SelectItem>
