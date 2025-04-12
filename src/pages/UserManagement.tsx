@@ -8,6 +8,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { UserManagementHeader } from "@/components/user/UserManagementHeader";
 import { TeacherList } from "@/components/user/TeacherList";
 import { StudentList } from "@/components/user/StudentList";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 export default function UserManagement() {
   const [open, setOpen] = React.useState(false);
@@ -20,29 +21,32 @@ export default function UserManagement() {
     <ProtectedRoute allowedRoles={["admin"]}>
       <MainLayout>
         <div className="space-y-6">
-          <UserManagementHeader open={open} setOpen={setOpen} />
+          <div className="flex justify-between items-center">
+            <UserManagementHeader open={open} setOpen={setOpen} />
+            <DarkModeToggle />
+          </div>
           
           <div className="grid gap-6 md:grid-cols-2">
-            <Card className="bg-white shadow-md rounded-2xl border border-[#E2E2E7]">
+            <Card className="sakura-card">
               <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold text-slate-800">
+                <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
                   <GraduationCap className="mr-2 h-5 w-5 text-[#D6A4A4]" />
                   Teachers
                 </CardTitle>
-                <CardDescription className="text-[#6D6875]">Manage teacher accounts</CardDescription>
+                <CardDescription className="text-[#6D6875] dark:text-gray-400">Manage teacher accounts</CardDescription>
               </CardHeader>
               <CardContent>
                 <TeacherList teachers={teacherUsers} />
               </CardContent>
             </Card>
             
-            <Card className="bg-white shadow-md rounded-2xl border border-[#E2E2E7]">
+            <Card className="sakura-card">
               <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold text-slate-800">
+                <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
                   <BookOpen className="mr-2 h-5 w-5 text-[#D6A4A4]" />
                   Students
                 </CardTitle>
-                <CardDescription className="text-[#6D6875]">Manage student accounts</CardDescription>
+                <CardDescription className="text-[#6D6875] dark:text-gray-400">Manage student accounts</CardDescription>
               </CardHeader>
               <CardContent>
                 <StudentList students={studentUsers} />

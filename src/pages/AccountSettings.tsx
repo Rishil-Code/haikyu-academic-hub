@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, Eye, EyeOff, Save, User, Mail, Github, Linkedin, Phone, MapPin } from "lucide-react";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 export default function AccountSettings() {
   const { user, updateUserProfile, updateUserPassword } = useAuth();
@@ -95,14 +96,17 @@ export default function AccountSettings() {
     <ProtectedRoute>
       <MainLayout>
         <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">Account Settings</h1>
-            <p className="text-indigo-200">Manage your profile and security settings</p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Account Settings</h1>
+              <p className="text-muted-foreground mt-1">Manage your profile and security settings</p>
+            </div>
+            <DarkModeToggle />
           </div>
           
           <div className="grid gap-6 md:grid-cols-2">
             {/* Profile Information */}
-            <Card className="card-modern">
+            <Card className="sakura-card">
               <CardHeader>
                 <CardTitle>Profile Information</CardTitle>
                 <CardDescription>Update your personal details</CardDescription>
@@ -110,16 +114,16 @@ export default function AccountSettings() {
               <CardContent className="space-y-4">
                 <div className="flex flex-col items-center space-y-3 mb-6">
                   <div className="relative" onClick={handleProfileImageClick}>
-                    <Avatar className="h-24 w-24 cursor-pointer border-2 border-indigo-500 shadow-lg">
+                    <Avatar className="h-24 w-24 cursor-pointer border-2 border-[#D6A4A4] shadow-lg">
                       {profileImage ? (
                         <AvatarImage src={profileImage} alt={user?.name || "Profile"} />
                       ) : (
-                        <AvatarFallback className="bg-indigo-600 text-lg">
+                        <AvatarFallback className="bg-[#D6A4A4] text-white text-lg">
                           {user?.name?.charAt(0) || <User size={32} />}
                         </AvatarFallback>
                       )}
                     </Avatar>
-                    <div className="absolute bottom-0 right-0 bg-indigo-500 text-white rounded-full p-2 shadow-md">
+                    <div className="absolute bottom-0 right-0 bg-[#D6A4A4] text-white rounded-full p-2 shadow-md">
                       <Camera size={16} />
                     </div>
                   </div>
@@ -138,7 +142,7 @@ export default function AccountSettings() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 text-indigo-500" />
+                      <User className="h-4 w-4 text-[#D6A4A4]" />
                       <Label htmlFor="name">Full Name</Label>
                     </div>
                     <Input
@@ -152,7 +156,7 @@ export default function AccountSettings() {
                   
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-indigo-500" />
+                      <Mail className="h-4 w-4 text-[#D6A4A4]" />
                       <Label htmlFor="email">Email Address</Label>
                     </div>
                     <Input
@@ -168,7 +172,7 @@ export default function AccountSettings() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
-                        <Github className="h-4 w-4 text-indigo-500" />
+                        <Github className="h-4 w-4 text-[#D6A4A4]" />
                         <Label htmlFor="github">GitHub</Label>
                       </div>
                       <Input
@@ -183,7 +187,7 @@ export default function AccountSettings() {
                     
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
-                        <Linkedin className="h-4 w-4 text-indigo-500" />
+                        <Linkedin className="h-4 w-4 text-[#D6A4A4]" />
                         <Label htmlFor="linkedin">LinkedIn</Label>
                       </div>
                       <Input
@@ -199,7 +203,7 @@ export default function AccountSettings() {
                   
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-indigo-500" />
+                      <Phone className="h-4 w-4 text-[#D6A4A4]" />
                       <Label htmlFor="phone">Phone Number</Label>
                     </div>
                     <Input
@@ -214,7 +218,7 @@ export default function AccountSettings() {
                   
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <MapPin className="h-4 w-4 text-indigo-500" />
+                      <MapPin className="h-4 w-4 text-[#D6A4A4]" />
                       <Label htmlFor="address">Address</Label>
                     </div>
                     <Textarea
@@ -223,11 +227,11 @@ export default function AccountSettings() {
                       value={profileData.address}
                       onChange={handleProfileChange}
                       placeholder="Your address"
-                      className="resize-none min-h-[100px] rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      className="input-field min-h-[100px] resize-none"
                     />
                   </div>
                   
-                  <Button onClick={handleSaveProfile} className="w-full btn-haikyu">
+                  <Button onClick={handleSaveProfile} className="w-full btn-sakura">
                     <Save className="mr-2 h-4 w-4" />
                     Save Profile
                   </Button>
@@ -236,7 +240,7 @@ export default function AccountSettings() {
             </Card>
             
             {/* Security Settings */}
-            <Card className="card-modern">
+            <Card className="sakura-card">
               <CardHeader>
                 <CardTitle>Security Settings</CardTitle>
                 <CardDescription>Manage your password and account security</CardDescription>
@@ -256,7 +260,7 @@ export default function AccountSettings() {
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                         onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                       >
                         {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -277,7 +281,7 @@ export default function AccountSettings() {
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                         onClick={() => setShowNewPassword(!showNewPassword)}
                       >
                         {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -285,12 +289,12 @@ export default function AccountSettings() {
                     </div>
                   </div>
                   
-                  <Button type="submit" className="w-full btn-haikyu">
+                  <Button type="submit" className="w-full btn-sakura">
                     Change Password
                   </Button>
                 </form>
                 
-                <div className="mt-8 pt-8 border-t">
+                <div className="mt-8 pt-8 border-t dark:border-gray-700">
                   <h3 className="text-lg font-medium mb-4">Account Information</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">

@@ -27,6 +27,7 @@ export default function Internships() {
   
   if (!user) return null;
   
+  // Make sure to properly filter internships for the current user
   const userInternships = internships.filter(internship => internship.studentId === user.id);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -58,17 +59,17 @@ export default function Internships() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-white">My Internships</h1>
-              <p className="text-indigo-200 mt-1">Keep track of your professional experiences</p>
+              <h1 className="text-3xl font-bold tracking-tight">My Internships</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">Keep track of your professional experiences</p>
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button className="btn-haikyu">
+                <Button className="btn-sakura">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Internship
                 </Button>
               </DialogTrigger>
-              <DialogContent className="card-modern sm:max-w-[550px]">
+              <DialogContent className="sakura-card sm:max-w-[550px]">
                 <form onSubmit={handleSubmit}>
                   <DialogHeader>
                     <DialogTitle>Add New Internship</DialogTitle>
@@ -113,7 +114,7 @@ export default function Internships() {
                         onChange={handleChange}
                         rows={4}
                         required
-                        className="resize-none min-h-[100px] rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        className="input-field resize-none min-h-[100px]"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -144,7 +145,7 @@ export default function Internships() {
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit" className="btn-haikyu">Add Internship</Button>
+                    <Button type="submit" className="btn-sakura">Add Internship</Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
@@ -154,12 +155,12 @@ export default function Internships() {
           <div className="grid gap-6 md:grid-cols-2">
             {userInternships.length > 0 ? (
               userInternships.map(internship => (
-                <Card key={internship.id} className="card-modern overflow-hidden hover:shadow-xl transition-all duration-300">
+                <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <Building2 className="h-5 w-5 text-indigo-500" />
+                          <Building2 className="h-5 w-5 text-[#D6A4A4]" />
                           <CardTitle className="text-xl">{internship.company}</CardTitle>
                         </div>
                         <CardDescription className="text-sm font-medium mt-1">
@@ -170,32 +171,32 @@ export default function Internships() {
                           {new Date(internship.startDate).toLocaleDateString()} - {new Date(internship.endDate).toLocaleDateString()}
                         </CardDescription>
                       </div>
-                      <div className="text-xs px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 font-medium">
+                      <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/20 text-[#D6A4A4] dark:bg-[#D6A4A4]/30 dark:text-white font-medium">
                         Internship
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pb-2">
-                    <p className="text-sm text-gray-700">{internship.description}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{internship.description}</p>
                   </CardContent>
-                  <CardFooter className="border-t pt-4 text-xs text-gray-500">
+                  <CardFooter className="border-t pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
                     Added on {format(new Date(), 'PPP')}
                   </CardFooter>
                 </Card>
               ))
             ) : (
               <div className="md:col-span-2">
-                <Card className="card-modern">
+                <Card className="sakura-card">
                   <CardContent className="p-8 text-center">
-                    <div className="mx-auto w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
-                      <Briefcase className="h-8 w-8 text-indigo-500" />
+                    <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                      <Briefcase className="h-8 w-8 text-[#D6A4A4]/70" />
                     </div>
                     <h3 className="text-xl font-medium mb-2">No internships yet</h3>
                     <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                       Add your first internship to showcase your professional experience to potential employers and track your career growth.
                     </p>
                     <DialogTrigger asChild>
-                      <Button className="btn-haikyu px-6 py-3">
+                      <Button className="btn-sakura px-6 py-3">
                         <Plus className="mr-2 h-4 w-4" />
                         Add Your First Internship
                       </Button>

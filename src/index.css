@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -93,7 +94,7 @@
   }
 
   body {
-    @apply bg-[#F4F4F9] text-[#2B2D42] font-poppins;
+    @apply bg-[#F4F4F9] text-[#2B2D42] font-poppins dark:bg-[#1E1E2F] dark:text-white;
   }
 }
 
@@ -106,43 +107,43 @@
   }
   
   .sakura-card {
-    @apply bg-white rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6;
+    @apply bg-white rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6 dark:bg-[#282836] dark:border-[#3D3D56];
   }
   
   .btn-sakura {
-    @apply bg-[#D6A4A4] text-white font-medium py-2.5 px-5 rounded-xl hover:bg-[#C98C8C] transition-all duration-200 shadow-md hover:shadow-lg;
+    @apply bg-[#D6A4A4] text-white font-medium py-2.5 px-5 rounded-xl hover:bg-[#C98C8C] transition-all duration-200 shadow-md hover:shadow-lg dark:bg-[#D6A4A4]/80 dark:hover:bg-[#C98C8C]/80;
   }
 
   .sakura-gradient-bg {
-    @apply bg-gradient-to-br from-[#F4F4F9] via-white to-white;
+    @apply bg-gradient-to-br from-[#F4F4F9] via-white to-white dark:from-[#1E1E2F] dark:via-[#282836] dark:to-[#282836];
   }
   
   .sakura-card-soft {
-    @apply bg-gradient-to-br from-white/90 to-white/90 rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6;
+    @apply bg-gradient-to-br from-white/90 to-white/90 rounded-2xl shadow-md border border-[#E2E2E7] transition-all duration-300 hover:shadow-lg p-6 dark:from-[#282836]/90 dark:to-[#282836]/90 dark:border-[#3D3D56];
   }
   
   .input-field {
-    @apply rounded-xl py-2.5 px-4 border border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring focus:ring-[#D6A4A4]/20 focus:ring-opacity-50 transition-all text-[#2B2D42];
+    @apply rounded-xl py-2.5 px-4 border border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring focus:ring-[#D6A4A4]/20 focus:ring-opacity-50 transition-all text-[#2B2D42] dark:bg-[#232330] dark:border-[#3D3D56] dark:text-white dark:focus:border-[#D6A4A4];
   }
   
   .card-modern {
-    @apply bg-white/95 backdrop-blur-sm rounded-2xl border border-[#E2E2E7] shadow-lg p-6 transition-all duration-300;
+    @apply bg-white/95 backdrop-blur-sm rounded-2xl border border-[#E2E2E7] shadow-lg p-6 transition-all duration-300 dark:bg-[#282836]/95 dark:border-[#3D3D56];
   }
 
   .sakura-sidebar {
-    @apply bg-gradient-to-br from-[#6D6875] to-[#6D6875]/80;
+    @apply bg-gradient-to-br from-[#6D6875] to-[#6D6875]/80 dark:from-[#232330] dark:to-[#2A2A3A];
   }
 
   .heading-text {
-    @apply text-xl font-semibold text-[#2B2D42];
+    @apply text-xl font-semibold text-[#2B2D42] dark:text-white;
   }
 
   .body-text {
-    @apply text-base text-[#2B2D42];
+    @apply text-base text-[#2B2D42] dark:text-gray-100;
   }
 
   .caption-text {
-    @apply text-sm text-[#6D6875];
+    @apply text-sm text-[#6D6875] dark:text-gray-400;
   }
 }
 
@@ -239,6 +240,11 @@
   border-radius: 150% 0 150% 0;
   opacity: 0.6;
   pointer-events: none;
+}
+
+.dark .cherry-petal {
+  background: #E8B8B8;
+  opacity: 0.4;
 }
 
 .cherry-petal:nth-child(1) {

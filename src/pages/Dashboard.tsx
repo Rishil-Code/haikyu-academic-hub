@@ -18,7 +18,7 @@ export default function Dashboard() {
     return (
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Total Students
@@ -26,13 +26,13 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center">
-                <Users className="h-4 w-4 text-haikyu-orange mr-2" />
+                <Users className="h-4 w-4 text-[#D6A4A4] mr-2" />
                 <div className="text-2xl font-bold">1</div>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Total Teachers
@@ -40,13 +40,13 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center">
-                <GraduationCap className="h-4 w-4 text-haikyu-orange mr-2" />
+                <GraduationCap className="h-4 w-4 text-[#D6A4A4] mr-2" />
                 <div className="text-2xl font-bold">1</div>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 System Status
@@ -61,7 +61,7 @@ export default function Dashboard() {
           </Card>
         </div>
         
-        <Card>
+        <Card className="sakura-card">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
             <CardDescription>System activity in the last 7 days</CardDescription>
@@ -81,7 +81,7 @@ export default function Dashboard() {
     return (
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Students Assigned
@@ -89,13 +89,13 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center">
-                <Users className="h-4 w-4 text-haikyu-orange mr-2" />
+                <Users className="h-4 w-4 text-[#D6A4A4] mr-2" />
                 <div className="text-2xl font-bold">1</div>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Department
@@ -106,7 +106,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Pending Reviews
@@ -118,7 +118,7 @@ export default function Dashboard() {
           </Card>
         </div>
         
-        <Card>
+        <Card className="sakura-card">
           <CardHeader>
             <CardTitle>Student Performance</CardTitle>
             <CardDescription>Average SGPA across semesters</CardDescription>
@@ -136,7 +136,7 @@ export default function Dashboard() {
                   <XAxis dataKey="semester" />
                   <YAxis domain={[0, 10]} />
                   <Tooltip />
-                  <Bar dataKey="sgpa" fill="#F4A261" />
+                  <Bar dataKey="sgpa" fill="#D6A4A4" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -156,7 +156,7 @@ export default function Dashboard() {
     return (
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Roll Number
@@ -167,7 +167,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Program & Branch
@@ -178,7 +178,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 CGPA
@@ -189,7 +189,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           
-          <Card className="haikyu-card">
+          <Card className="sakura-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Projects & Internships
@@ -206,7 +206,7 @@ export default function Dashboard() {
         </div>
         
         <div className="grid gap-6 md:grid-cols-2">
-          <Card>
+          <Card className="sakura-card">
             <CardHeader>
               <CardTitle>Academic Performance</CardTitle>
               <CardDescription>SGPA across semesters</CardDescription>
@@ -225,14 +225,14 @@ export default function Dashboard() {
                     <XAxis dataKey="semester" />
                     <YAxis domain={[0, 10]} />
                     <Tooltip />
-                    <Bar dataKey="sgpa" fill="#F4A261" />
+                    <Bar dataKey="sgpa" fill="#D6A4A4" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="sakura-card">
             <CardHeader>
               <CardTitle>Recent Activities</CardTitle>
               <CardDescription>Your latest academic activities</CardDescription>
@@ -241,10 +241,10 @@ export default function Dashboard() {
               <div className="space-y-4">
                 {studentProjects.length > 0 ? (
                   <div className="flex items-start space-x-4">
-                    <Award className="h-5 w-5 text-haikyu-orange mt-0.5" />
+                    <Award className="h-5 w-5 text-[#D6A4A4] mt-0.5" />
                     <div>
                       <p className="font-medium">New Project Added</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {studentProjects[0].title}
                       </p>
                     </div>
@@ -253,10 +253,10 @@ export default function Dashboard() {
                 
                 {studentInternships.length > 0 ? (
                   <div className="flex items-start space-x-4">
-                    <Book className="h-5 w-5 text-haikyu-orange mt-0.5" />
+                    <Book className="h-5 w-5 text-[#D6A4A4] mt-0.5" />
                     <div>
                       <p className="font-medium">Internship Updated</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {studentInternships[0].company} - {studentInternships[0].role}
                       </p>
                     </div>
@@ -265,10 +265,10 @@ export default function Dashboard() {
                 
                 {studentRecords.length > 0 ? (
                   <div className="flex items-start space-x-4">
-                    <GraduationCap className="h-5 w-5 text-haikyu-orange mt-0.5" />
+                    <GraduationCap className="h-5 w-5 text-[#D6A4A4] mt-0.5" />
                     <div>
                       <p className="font-medium">Semester Marks Updated</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Semester {studentRecords[0].semester} - SGPA: {studentRecords[0].sgpa}
                       </p>
                     </div>
@@ -299,11 +299,16 @@ export default function Dashboard() {
   return (
     <MainLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Welcome, {user.name}</h1>
-          <p className="text-gray-500">
-            Here's what's happening with your account today.
-          </p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Welcome, {user.name}</h1>
+            <p className="text-gray-500 dark:text-gray-400">
+              Here's what's happening with your account today.
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <DarkModeToggle />
+          </div>
         </div>
         
         {getDashboardByRole()}
@@ -311,3 +316,6 @@ export default function Dashboard() {
     </MainLayout>
   );
 }
+
+// Import the dark mode toggle component at the top of the file
+import { DarkModeToggle } from "@/components/DarkModeToggle";

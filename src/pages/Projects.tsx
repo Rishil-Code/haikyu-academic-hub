@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ export default function Projects() {
   
   if (!user) return null;
   
+  // Make sure to properly filter projects for the current user
   const userProjects = projects.filter(project => project.studentId === user.id);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,15 +56,20 @@ export default function Projects() {
       <MainLayout>
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold tracking-tight">My Projects</h1>
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">My Projects</h1>
+              <p className="text-gray-500 dark:text-gray-400">
+                Manage your academic and personal projects
+              </p>
+            </div>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button className="btn-haikyu">
+                <Button className="btn-sakura">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Project
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px]">
+              <DialogContent className="sakura-card sm:max-w-[550px]">
                 <form onSubmit={handleSubmit}>
                   <DialogHeader>
                     <DialogTitle>Add New Project</DialogTitle>
@@ -81,6 +87,7 @@ export default function Projects() {
                         value={formData.title}
                         onChange={handleChange}
                         required
+                        className="input-field"
                       />
                     </div>
                     <div className="space-y-2">
@@ -93,6 +100,7 @@ export default function Projects() {
                         onChange={handleChange}
                         rows={4}
                         required
+                        className="input-field resize-none"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -105,6 +113,7 @@ export default function Projects() {
                           value={formData.startDate}
                           onChange={handleChange}
                           required
+                          className="input-field"
                         />
                       </div>
                       <div className="space-y-2">
@@ -116,31 +125,28 @@ export default function Projects() {
                           value={formData.endDate}
                           onChange={handleChange}
                           required
+                          className="input-field"
                         />
                       </div>
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit" className="btn-haikyu">Add Project</Button>
+                    <Button type="submit" className="btn-sakura">Add Project</Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
             </Dialog>
           </div>
           
-          <p className="text-gray-500">
-            Manage your academic and personal projects
-          </p>
-          
           <div className="grid gap-6 md:grid-cols-2">
             {userProjects.length > 0 ? (
               userProjects.map(project => (
-                <Card key={project.id} className="haikyu-card overflow-hidden">
+                <Card key={project.id} className="sakura-card overflow-hidden">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <Award className="h-5 w-5 text-haikyu-orange" />
+                          <Award className="h-5 w-5 text-[#D6A4A4]" />
                           <CardTitle className="text-xl">{project.title}</CardTitle>
                         </div>
                         <CardDescription className="flex items-center text-sm mt-1">
@@ -148,32 +154,32 @@ export default function Projects() {
                           {new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}
                         </CardDescription>
                       </div>
-                      <div className="text-xs px-2 py-1 rounded-full bg-haikyu-orange/20 text-haikyu-orange">
+                      <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/20 text-[#D6A4A4] dark:bg-[#D6A4A4]/30 dark:text-white">
                         Project
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pb-2">
-                    <p className="text-sm text-gray-700">{project.description}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{project.description}</p>
                   </CardContent>
-                  <CardFooter className="border-t pt-4 text-xs text-gray-500">
+                  <CardFooter className="border-t pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
                     Added on {format(new Date(), 'PPP')}
                   </CardFooter>
                 </Card>
               ))
             ) : (
               <div className="md:col-span-2">
-                <Card>
+                <Card className="sakura-card">
                   <CardContent className="p-8 text-center">
-                    <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                      <Award className="h-6 w-6 text-gray-400" />
+                    <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                      <Award className="h-6 w-6 text-gray-400 dark:text-gray-500" />
                     </div>
                     <h3 className="text-lg font-medium mb-2">No projects yet</h3>
                     <p className="text-muted-foreground mb-4">
                       Add your first project to showcase your skills and achievements
                     </p>
                     <DialogTrigger asChild>
-                      <Button className="btn-haikyu">
+                      <Button className="btn-sakura">
                         <Plus className="mr-2 h-4 w-4" />
                         Add Your First Project
                       </Button>

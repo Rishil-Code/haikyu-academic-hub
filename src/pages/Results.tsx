@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,20 +16,28 @@ export default function Results() {
   
   if (!user) return null;
   
+  // Ensure we're getting the correct student records
   const studentRecords = academicRecords[user.id] || [];
   const cgpa = calculateCGPA(user.id);
   
   // Get the selected semester record
   const semesterRecord = selectedSemester 
     ? studentRecords.find(record => record.semester === parseInt(selectedSemester))
-    : null;
+    : studentRecords.length > 0 ? studentRecords[0] : null;
+
+  // Set first semester as default if no selection and we have records
+  useEffect(() => {
+    if (studentRecords.length > 0 && !selectedSemester) {
+      setSelectedSemester(studentRecords[0].semester.toString());
+    }
+  }, [studentRecords, selectedSemester]);
     
   // Prepare data for pie chart
   const getPerformanceData = () => {
     if (!semesterRecord) return [];
     
     const subjectPerformance = semesterRecord.subjects.map(subject => {
-      const totalMarks = subject.mid1 && subject.mid2 && subject.semExam 
+      const totalMarks = subject.mid1 !== null && subject.mid2 !== null && subject.semExam !== null
         ? (subject.mid1 + subject.mid2) / 2 + subject.semExam
         : 0;
       return {
@@ -41,25 +49,26 @@ export default function Results() {
     return subjectPerformance;
   };
   
-  const COLORS = ['#F4A261', '#2B3A67', '#F9C784', '#1A1F2C', '#E76F51'];
+  const COLORS = ['#D6A4A4', '#6D6875', '#B392AC', '#F4A9A8', '#8785A2'];
 
   return (
     <ProtectedRoute allowedRoles={["student"]}>
       <MainLayout>
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold tracking-tight">Academic Results</h1>
-          
           <div className="flex justify-between items-center">
-            <p className="text-gray-500">
-              View your semester-wise academic performance
-            </p>
-            <div className="flex items-center space-x-2">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Academic Results</h1>
+              <p className="text-gray-500 dark:text-gray-400">
+                View your semester-wise academic performance
+              </p>
+            </div>
+            <div className="flex items-center space-x-2 bg-white dark:bg-[#282836] px-4 py-2 rounded-xl shadow-sm">
               <span className="text-sm font-medium">Your CGPA:</span>
-              <span className="text-lg font-bold text-haikyu-orange">{cgpa}</span>
+              <span className="text-lg font-bold text-[#D6A4A4]">{cgpa}</span>
             </div>
           </div>
           
-          <Card>
+          <Card className="sakura-card">
             <CardHeader>
               <CardTitle>Select Semester</CardTitle>
               <CardDescription>Choose a semester to view detailed results</CardDescription>
@@ -69,7 +78,7 @@ export default function Results() {
                 value={selectedSemester}
                 onValueChange={setSelectedSemester}
               >
-                <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectTrigger className="w-full sm:w-[200px] input-field">
                   <SelectValue placeholder="Select semester" />
                 </SelectTrigger>
                 <SelectContent>
@@ -88,7 +97,7 @@ export default function Results() {
           
           {semesterRecord ? (
             <div className="grid gap-6 md:grid-cols-2">
-              <Card>
+              <Card className="sakura-card">
                 <CardHeader>
                   <CardTitle>Marks Breakdown</CardTitle>
                   <CardDescription>Semester {semesterRecord.semester} - SGPA: {semesterRecord.sgpa}</CardDescription>
@@ -106,7 +115,7 @@ export default function Results() {
                     </TableHeader>
                     <TableBody>
                       {semesterRecord.subjects.map((subject, index) => {
-                        const totalMarks = subject.mid1 && subject.mid2 && subject.semExam 
+                        const totalMarks = subject.mid1 !== null && subject.mid2 !== null && subject.semExam !== null
                           ? (subject.mid1 + subject.mid2) / 2 + subject.semExam
                           : null;
                           
@@ -147,7 +156,7 @@ export default function Results() {
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="sakura-card">
                 <CardHeader>
                   <CardTitle>Performance Analysis</CardTitle>
                   <CardDescription>Visual representation of your marks</CardDescription>
@@ -179,7 +188,7 @@ export default function Results() {
               </Card>
             </div>
           ) : (
-            <Card>
+            <Card className="sakura-card">
               <CardContent className="p-8 text-center">
                 <p className="text-muted-foreground">
                   {studentRecords.length > 0 
