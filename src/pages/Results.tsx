@@ -9,12 +9,21 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, Loader2 } from "lucide-react";
 
 export default function Results() {
   const { user } = useAuth();
   const { academicRecords, calculateCGPA } = useAcademic();
   const [selectedSemester, setSelectedSemester] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Simulate loading for a short time to ensure proper data fetching
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   
   if (!user) return null;
   
@@ -59,33 +68,37 @@ export default function Results() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Academic Results</h1>
-              <p className="text-gray-500 dark:text-gray-400">
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">Academic Results</h1>
+              <p className="text-gray-500 dark:text-gray-300 mt-1 ml-2">
                 View your semester-wise academic performance
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="bg-white dark:bg-[#282836] px-4 py-2 rounded-xl shadow-sm">
-                <span className="text-sm font-medium">Your CGPA:</span>
-                <span className="text-lg font-bold text-[#D6A4A4]">{cgpa}</span>
+              <div className="bg-white/80 dark:bg-[#282836]/80 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Your CGPA:</span>{" "}
+                <span className="text-lg font-bold text-[#D6A4A4] dark:text-[#D6A4A4]">{cgpa}</span>
               </div>
               <DarkModeToggle />
             </div>
           </div>
           
-          {studentRecords.length > 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#D6A4A4]" />
+            </div>
+          ) : studentRecords.length > 0 ? (
             <>
               <Card className="sakura-card">
                 <CardHeader>
-                  <CardTitle>Select Semester</CardTitle>
-                  <CardDescription>Choose a semester to view detailed results</CardDescription>
+                  <CardTitle className="text-gray-800 dark:text-white">Select Semester</CardTitle>
+                  <CardDescription className="text-gray-600 dark:text-gray-300">Choose a semester to view detailed results</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Select
                     value={selectedSemester}
                     onValueChange={setSelectedSemester}
                   >
-                    <SelectTrigger className="w-full sm:w-[200px] input-field">
+                    <SelectTrigger className="w-full sm:w-[200px] input-field bg-white dark:bg-gray-800">
                       <SelectValue placeholder="Select semester" />
                     </SelectTrigger>
                     <SelectContent>
@@ -105,19 +118,22 @@ export default function Results() {
               {semesterRecord ? (
                 <div className="grid gap-6 md:grid-cols-2">
                   <Card className="sakura-card">
-                    <CardHeader>
-                      <CardTitle>Marks Breakdown</CardTitle>
-                      <CardDescription>Semester {semesterRecord.semester} - SGPA: {semesterRecord.sgpa}</CardDescription>
+                    <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                      <CardTitle className="text-gray-800 dark:text-white">Marks Breakdown</CardTitle>
+                      <CardDescription className="text-gray-600 dark:text-gray-300">
+                        Semester {semesterRecord.semester} - 
+                        <span className="ml-1 font-medium text-[#D6A4A4]">SGPA: {semesterRecord.sgpa}</span>
+                      </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-4">
                       <Table>
-                        <TableHeader>
+                        <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
                           <TableRow>
-                            <TableHead>Subject</TableHead>
-                            <TableHead className="text-right">Mid 1</TableHead>
-                            <TableHead className="text-right">Mid 2</TableHead>
-                            <TableHead className="text-right">Sem Exam</TableHead>
-                            <TableHead className="text-right">Total</TableHead>
+                            <TableHead className="text-gray-700 dark:text-gray-300">Subject</TableHead>
+                            <TableHead className="text-right text-gray-700 dark:text-gray-300">Mid 1</TableHead>
+                            <TableHead className="text-right text-gray-700 dark:text-gray-300">Mid 2</TableHead>
+                            <TableHead className="text-right text-gray-700 dark:text-gray-300">Sem Exam</TableHead>
+                            <TableHead className="text-right text-gray-700 dark:text-gray-300">Total</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -127,12 +143,12 @@ export default function Results() {
                               : null;
                               
                             return (
-                              <TableRow key={index}>
-                                <TableCell className="font-medium">{subject.name}</TableCell>
-                                <TableCell className="text-right">{subject.mid1 ?? 'N/A'}</TableCell>
-                                <TableCell className="text-right">{subject.mid2 ?? 'N/A'}</TableCell>
-                                <TableCell className="text-right">{subject.semExam ?? 'N/A'}</TableCell>
-                                <TableCell className="text-right font-bold">
+                              <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                <TableCell className="font-medium text-gray-700 dark:text-gray-300">{subject.name}</TableCell>
+                                <TableCell className="text-right text-gray-600 dark:text-gray-400">{subject.mid1 ?? 'N/A'}</TableCell>
+                                <TableCell className="text-right text-gray-600 dark:text-gray-400">{subject.mid2 ?? 'N/A'}</TableCell>
+                                <TableCell className="text-right text-gray-600 dark:text-gray-400">{subject.semExam ?? 'N/A'}</TableCell>
+                                <TableCell className="text-right font-bold text-gray-800 dark:text-white">
                                   {totalMarks ? totalMarks.toFixed(0) : 'N/A'}
                                 </TableCell>
                               </TableRow>
@@ -142,19 +158,19 @@ export default function Results() {
                       </Table>
                       
                       <div className="mt-6">
-                        <h3 className="text-md font-semibold mb-2 dark:text-white">Laboratory Exams</h3>
+                        <h3 className="text-md font-semibold mb-2 text-gray-800 dark:text-white px-2 py-1 rounded bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 inline-block">Laboratory Exams</h3>
                         <Table>
-                          <TableHeader>
+                          <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
                             <TableRow>
-                              <TableHead>Lab</TableHead>
-                              <TableHead className="text-right">Marks</TableHead>
+                              <TableHead className="text-gray-700 dark:text-gray-300">Lab</TableHead>
+                              <TableHead className="text-right text-gray-700 dark:text-gray-300">Marks</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
                             {semesterRecord.labs.map((lab, index) => (
-                              <TableRow key={index}>
-                                <TableCell className="font-medium">{lab.name}</TableCell>
-                                <TableCell className="text-right">{lab.marks ?? 'N/A'}</TableCell>
+                              <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                <TableCell className="font-medium text-gray-700 dark:text-gray-300">{lab.name}</TableCell>
+                                <TableCell className="text-right text-gray-800 dark:text-white font-semibold">{lab.marks ?? 'N/A'}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -164,11 +180,11 @@ export default function Results() {
                   </Card>
                   
                   <Card className="sakura-card">
-                    <CardHeader>
-                      <CardTitle>Performance Analysis</CardTitle>
-                      <CardDescription>Visual representation of your marks</CardDescription>
+                    <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                      <CardTitle className="text-gray-800 dark:text-white">Performance Analysis</CardTitle>
+                      <CardDescription className="text-gray-600 dark:text-gray-300">Visual representation of your marks</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-4">
                       <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -212,8 +228,8 @@ export default function Results() {
                 <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                   <GraduationCap className="h-6 w-6 text-gray-400 dark:text-gray-500" />
                 </div>
-                <h3 className="text-lg font-medium mb-2 dark:text-white">No academic records found</h3>
-                <p className="text-muted-foreground mb-4">
+                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No academic records found</h3>
+                <p className="text-muted-foreground mb-4 max-w-md mx-auto">
                   Your teacher has not yet added any academic records for you. Please check back later.
                 </p>
               </CardContent>

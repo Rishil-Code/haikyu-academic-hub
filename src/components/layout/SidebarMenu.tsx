@@ -12,7 +12,7 @@ import {
   FileCheck, 
   Settings, 
   LogOut,
-  Certificate
+  GraduationCap
 } from "lucide-react";
 
 interface SidebarItemProps {
@@ -61,14 +61,14 @@ export function SidebarMenu() {
     const teacherItems = [
       { icon: BookOpen, label: "Student Records", href: "/students" },
       { icon: FileCheck, label: "Grade Management", href: "/grades" },
-      { icon: Certificate, label: "Certificates", href: "/certificates" },
+      { icon: Award, label: "Certificates", href: "/certificates" },
     ];
     
     const studentItems = [
       { icon: BookOpen, label: "Results", href: "/results" },
       { icon: Award, label: "Projects", href: "/projects" },
       { icon: Briefcase, label: "Internships", href: "/internships" },
-      { icon: Certificate, label: "Certificates", href: "/certificates" },
+      { icon: Award, label: "Certificates", href: "/certificates" },
     ];
     
     switch (user.role) {

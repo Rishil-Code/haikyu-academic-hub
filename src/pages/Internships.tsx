@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Briefcase, Calendar, Plus, Building2 } from "lucide-react";
+import { Briefcase, Calendar, Plus, Building2, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { format } from "date-fns";
@@ -17,6 +17,7 @@ export default function Internships() {
   const { user } = useAuth();
   const { internships, addInternship } = useAcademic();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -24,6 +25,14 @@ export default function Internships() {
     startDate: "",
     endDate: "",
   });
+  
+  // Simulate loading for a short time to ensure proper data fetching
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
   
   if (!user) return null;
   
@@ -59,8 +68,8 @@ export default function Internships() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-4 py-1 rounded-full inline-block">My Internships</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Keep track of your professional experiences</p>
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">My Internships</h1>
+              <p className="text-gray-500 dark:text-gray-300 mt-1 ml-2">Keep track of your professional experiences</p>
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
@@ -152,60 +161,66 @@ export default function Internships() {
             </Dialog>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2">
-            {userInternships.length > 0 ? (
-              userInternships.map(internship => (
-                <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300">
-                  <CardHeader className="pb-2 bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center space-x-2">
-                          <Building2 className="h-5 w-5 text-[#D6A4A4]" />
-                          <CardTitle className="text-xl text-gray-800 dark:text-gray-100">{internship.company}</CardTitle>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#D6A4A4]" />
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              {userInternships.length > 0 ? (
+                userInternships.map(internship => (
+                  <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300">
+                    <CardHeader className="pb-2 bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/50">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <Building2 className="h-5 w-5 text-[#D6A4A4]" />
+                            <CardTitle className="text-xl text-gray-800 dark:text-gray-100">{internship.company}</CardTitle>
+                          </div>
+                          <CardDescription className="text-sm font-medium mt-1 text-gray-600 dark:text-gray-300">
+                            {internship.role}
+                          </CardDescription>
+                          <CardDescription className="flex items-center text-xs mt-1">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {format(new Date(internship.startDate), 'PPP')} - {format(new Date(internship.endDate), 'PPP')}
+                          </CardDescription>
                         </div>
-                        <CardDescription className="text-sm font-medium mt-1">
-                          {internship.role}
-                        </CardDescription>
-                        <CardDescription className="flex items-center text-xs mt-1">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          {new Date(internship.startDate).toLocaleDateString()} - {new Date(internship.endDate).toLocaleDateString()}
-                        </CardDescription>
+                        <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/30 text-[#D6A4A4] dark:bg-[#D6A4A4]/40 dark:text-white font-medium">
+                          Internship
+                        </div>
                       </div>
-                      <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/20 text-[#D6A4A4] dark:bg-[#D6A4A4]/30 dark:text-white font-medium">
-                        Internship
+                    </CardHeader>
+                    <CardContent className="pb-2">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">{internship.description}</p>
+                    </CardContent>
+                    <CardFooter className="border-t pt-4 text-xs bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 text-gray-500 dark:text-gray-400">
+                      Added on {format(new Date(), 'PPP')}
+                    </CardFooter>
+                  </Card>
+                ))
+              ) : (
+                <div className="md:col-span-2">
+                  <Card className="sakura-card">
+                    <CardContent className="p-8 text-center">
+                      <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                        <Briefcase className="h-8 w-8 text-[#D6A4A4]/70" />
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pb-2">
-                    <p className="text-sm text-gray-700 dark:text-gray-300">{internship.description}</p>
-                  </CardContent>
-                  <CardFooter className="border-t pt-4 text-xs bg-[#F4F4F9]/30 dark:bg-[#2B2D42]/20 text-gray-500 dark:text-gray-400">
-                    Added on {format(new Date(), 'PPP')}
-                  </CardFooter>
-                </Card>
-              ))
-            ) : (
-              <div className="md:col-span-2">
-                <Card className="sakura-card">
-                  <CardContent className="p-8 text-center">
-                    <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
-                      <Briefcase className="h-8 w-8 text-[#D6A4A4]/70" />
-                    </div>
-                    <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-3 py-1 rounded-full inline-block">No internships yet</h3>
-                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                      Add your first internship to showcase your professional experience to potential employers and track your career growth.
-                    </p>
-                    <DialogTrigger asChild>
-                      <Button className="btn-sakura px-6 py-3">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add Your First Internship
-                      </Button>
-                    </DialogTrigger>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-          </div>
+                      <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No internships yet</h3>
+                      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                        No records found. Please add your internship details to showcase your professional experience to potential employers.
+                      </p>
+                      <DialogTrigger asChild>
+                        <Button className="btn-sakura px-6 py-3">
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add Your First Internship
+                        </Button>
+                      </DialogTrigger>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </MainLayout>
     </ProtectedRoute>

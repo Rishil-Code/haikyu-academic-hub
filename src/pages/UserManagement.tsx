@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
-import { GraduationCap, BookOpen, Shield, Check, ArrowLeft } from "lucide-react";
+import { GraduationCap, BookOpen, Shield, Check, ArrowLeft, Users } from "lucide-react";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { UserManagementHeader } from "@/components/user/UserManagementHeader";
 import { TeacherList } from "@/components/user/TeacherList";
@@ -77,12 +77,12 @@ export default function UserManagement() {
     <ProtectedRoute allowedRoles={["admin"]}>
       <MainLayout>
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <UserManagementHeader open={open} setOpen={setOpen} />
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">User Management</h1>
             <div className="flex items-center space-x-4">
               <Button 
                 onClick={() => setPrivilegesOpen(true)} 
-                className="bg-[#2B2D42] hover:bg-[#3E3F54] text-white"
+                className="bg-[#D6A4A4] hover:bg-[#c08686] text-white"
               >
                 <Shield className="mr-2 h-4 w-4" />
                 Assign Admin Privileges
@@ -91,32 +91,53 @@ export default function UserManagement() {
             </div>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="sakura-card">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
-                  <GraduationCap className="mr-2 h-5 w-5 text-[#D6A4A4]" />
-                  Teachers
-                </CardTitle>
-                <CardDescription className="text-[#6D6875] dark:text-gray-400">Manage teacher accounts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <TeacherList teachers={teacherUsers} />
-              </CardContent>
-            </Card>
+          <div className="grid gap-6 md:grid-cols-12">
+            <div className="md:col-span-8">
+              <div className="grid gap-6 md:grid-cols-2">
+                <Card className="sakura-card">
+                  <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                    <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
+                      <GraduationCap className="mr-2 h-5 w-5 text-[#D6A4A4]" />
+                      Teachers
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 dark:text-gray-300">Manage teacher accounts</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <TeacherList teachers={teacherUsers} />
+                  </CardContent>
+                </Card>
+                
+                <Card className="sakura-card">
+                  <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                    <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
+                      <BookOpen className="mr-2 h-5 w-5 text-[#D6A4A4]" />
+                      Students
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 dark:text-gray-300">Manage student accounts</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <StudentList students={studentUsers} />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
             
-            <Card className="sakura-card">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
-                  <BookOpen className="mr-2 h-5 w-5 text-[#D6A4A4]" />
-                  Students
-                </CardTitle>
-                <CardDescription className="text-[#6D6875] dark:text-gray-400">Manage student accounts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <StudentList students={studentUsers} />
-              </CardContent>
-            </Card>
+            <div className="md:col-span-4">
+              <Card className="sakura-card h-full">
+                <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                  <CardTitle className="flex items-center text-xl font-semibold text-slate-800 dark:text-white">
+                    <Users className="mr-2 h-5 w-5 text-[#D6A4A4]" />
+                    Create User
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 dark:text-gray-300">Add new teachers or students</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="py-4">
+                    <UserManagementHeader open={open} setOpen={setOpen} />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
@@ -124,11 +145,11 @@ export default function UserManagement() {
         <Dialog open={privilegesOpen} onOpenChange={setPrivilegesOpen}>
           <DialogContent className="sm:max-w-[550px] sakura-card">
             <DialogHeader>
-              <DialogTitle className="flex items-center">
+              <DialogTitle className="flex items-center text-gray-800 dark:text-white">
                 <Shield className="mr-2 h-5 w-5 text-[#D6A4A4]" />
                 Assign Admin Privileges
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-gray-600 dark:text-gray-300">
                 Give special admin privileges to teachers and students
               </DialogDescription>
             </DialogHeader>
@@ -137,8 +158,8 @@ export default function UserManagement() {
               <>
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-[#F4F4F9] dark:bg-[#282836] p-3 rounded-lg">
-                    <h3 className="font-medium dark:text-white">Editing Privileges for {selectedUser.name}</h3>
-                    <p className="text-sm text-[#6D6875] dark:text-gray-400">Role: {selectedUser.role}</p>
+                    <h3 className="font-medium text-gray-800 dark:text-white">Editing Privileges for {selectedUser.name}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Role: {selectedUser.role}</p>
                   </div>
                   <Button 
                     variant="outline" 
@@ -151,10 +172,10 @@ export default function UserManagement() {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/80 dark:bg-[#1E1E2F]/70">
                     <div>
-                      <h4 className="font-medium dark:text-white">User Management Access</h4>
-                      <p className="text-sm text-[#6D6875] dark:text-gray-400">Allow creation and management of users</p>
+                      <h4 className="font-medium text-gray-800 dark:text-white">User Management Access</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Allow creation and management of users</p>
                     </div>
                     <Switch 
                       checked={privileges.canManageUsers}
@@ -164,10 +185,10 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/80 dark:bg-[#1E1E2F]/70">
                     <div>
-                      <h4 className="font-medium dark:text-white">Student Records Access</h4>
-                      <p className="text-sm text-[#6D6875] dark:text-gray-400">View all student academic records</p>
+                      <h4 className="font-medium text-gray-800 dark:text-white">Student Records Access</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">View all student academic records</p>
                     </div>
                     <Switch 
                       checked={privileges.canViewAllRecords}
@@ -177,10 +198,10 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/80 dark:bg-[#1E1E2F]/70">
                     <div>
-                      <h4 className="font-medium dark:text-white">Grading Access</h4>
-                      <p className="text-sm text-[#6D6875] dark:text-gray-400">Grade and evaluate student performance</p>
+                      <h4 className="font-medium text-gray-800 dark:text-white">Grading Access</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Grade and evaluate student performance</p>
                     </div>
                     <Switch 
                       checked={privileges.canGradeStudents}
@@ -190,10 +211,10 @@ export default function UserManagement() {
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/50 dark:bg-[#1E1E2F]/70">
+                  <div className="flex items-center justify-between py-2 px-4 rounded-lg bg-white/80 dark:bg-[#1E1E2F]/70">
                     <div>
-                      <h4 className="font-medium dark:text-white">Analytics Access</h4>
-                      <p className="text-sm text-[#6D6875] dark:text-gray-400">Access data insights and analytics</p>
+                      <h4 className="font-medium text-gray-800 dark:text-white">Analytics Access</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Access data insights and analytics</p>
                     </div>
                     <Switch 
                       checked={privileges.canAccessAnalytics}
@@ -215,12 +236,12 @@ export default function UserManagement() {
               <>
                 <div className="max-h-[400px] overflow-y-auto">
                   <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Privileges</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-gray-700 dark:text-gray-300">Name</TableHead>
+                        <TableHead className="text-gray-700 dark:text-gray-300">Role</TableHead>
+                        <TableHead className="text-gray-700 dark:text-gray-300">Privileges</TableHead>
+                        <TableHead className="text-right text-gray-700 dark:text-gray-300">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -232,9 +253,9 @@ export default function UserManagement() {
                           user.adminPrivileges.canAccessAnalytics);
                           
                         return (
-                          <TableRow key={user.id}>
-                            <TableCell className="font-medium dark:text-white">{user.name}</TableCell>
-                            <TableCell className="capitalize">{user.role}</TableCell>
+                          <TableRow key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                            <TableCell className="font-medium text-gray-800 dark:text-white">{user.name}</TableCell>
+                            <TableCell className="capitalize text-gray-600 dark:text-gray-300">{user.role}</TableCell>
                             <TableCell>
                               {hasPrivileges ? (
                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#D6A4A4]/20 text-[#D6A4A4] dark:bg-[#D6A4A4]/30 dark:text-white">
