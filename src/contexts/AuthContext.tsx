@@ -1,28 +1,42 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { User, UserRole } from '@/types/user';
 import { getSampleUsers } from '@/utils/sampleData';
 import { storeUser, retrieveUser, storeUsers, retrieveUsers, clearStorage } from '@/utils/storage';
 
+// Define admin privileges interface
+export interface AdminPrivileges {
+  canManageUsers: boolean;
+  canViewAllRecords: boolean;
+  canGradeStudents: boolean;
+  canAccessAnalytics: boolean;
+}
+
+// Update User interface to include admin privileges
+export interface ExtendedUser extends User {
+  adminPrivileges?: AdminPrivileges;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: ExtendedUser | null;
   login: (id: string, password: string, role: UserRole) => boolean;
   logout: () => void;
   createUser: (userData: Omit<User, 'id'> & { id: string, password: string }) => void;
-  users: User[];
+  users: ExtendedUser[];
   updateUserPassword: (userId: string, newPassword: string) => boolean;
   deleteUser: (userId: string) => boolean;
-  updateUserProfile: (userId: string, updatedData: Partial<User>) => boolean;
+  updateUserProfile: (userId: string, updatedData: Partial<ExtendedUser>) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [users, setUsers] = useState<User[]>(() => {
+  const [users, setUsers] = useState<ExtendedUser[]>(() => {
     return retrieveUsers() || getSampleUsers();
   });
   
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<ExtendedUser | null>(null);
 
   useEffect(() => {
     const storedUser = retrieveUser();
@@ -87,6 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       phone: userData.phone || "",
       address: userData.address || "",
       profilePic: userData.profilePic || "",
+      adminPrivileges: undefined,
     };
     
     console.log('Creating new user:', newUser);
@@ -142,7 +157,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return true;
   };
 
-  const updateUserProfile = (userId: string, updatedData: Partial<User>): boolean => {
+  const updateUserProfile = (userId: string, updatedData: Partial<ExtendedUser>): boolean => {
     const userIndex = users.findIndex(u => u.id === userId);
     if (userIndex === -1) {
       toast.error("User not found.");
@@ -192,4 +207,4 @@ export const useAuth = () => {
   return context;
 };
 
-export type { User };
+export type { ExtendedUser as User };

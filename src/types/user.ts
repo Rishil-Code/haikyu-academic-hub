@@ -2,6 +2,14 @@
 // Define user roles
 export type UserRole = 'admin' | 'teacher' | 'student';
 
+// Define admin privileges
+export interface AdminPrivileges {
+  canManageUsers: boolean;
+  canViewAllRecords: boolean;
+  canGradeStudents: boolean;
+  canAccessAnalytics: boolean;
+}
+
 // Define user interface
 export interface User {
   id: string;
@@ -19,4 +27,5 @@ export interface User {
   phone?: string;
   address?: string;
   profilePic?: string;
+  adminPrivileges?: AdminPrivileges;
 }

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { useAuth } from "@/contexts/AuthContext";
 import volleyballLogo from "@/assets/volleyball-logo.svg";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 export default function Login() {
   const { user } = useAuth();
@@ -36,15 +37,21 @@ export default function Login() {
       <div className="cherry-petal"></div>
       <div className="cherry-petal"></div>
       
+      <div className="absolute top-4 right-4">
+        <DarkModeToggle />
+      </div>
+      
       <div className="mb-8 text-center animate-fade-in relative z-10">
         <div className="flex justify-center mb-4">
           <div className="h-20 w-20 rounded-3xl bg-white/30 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center p-4 shadow-lg border border-[#D6A4A4]/30 animate-float">
             <img src={volleyballLogo} alt="SVU Logo" className="h-12 w-12" />
           </div>
         </div>
-        <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white text-shadow-lg">
-          SVU Student Management
-        </h1>
+        <div className="px-4 py-2 rounded-full bg-[#2B2D42]/10 dark:bg-white/10 backdrop-blur-sm inline-block mb-2">
+          <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white text-shadow-lg">
+            SVU Student Management
+          </h1>
+        </div>
         <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300">Sri Venkateswara University College</p>
       </div>
       
