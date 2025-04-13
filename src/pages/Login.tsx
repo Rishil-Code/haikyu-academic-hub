@@ -47,13 +47,13 @@ export default function Login() {
             <img src={volleyballLogo} alt="SVU Logo" className="h-12 w-12" />
           </div>
         </div>
-        <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 backdrop-blur-sm inline-block mb-2">
+        <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 backdrop-blur-sm inline-block mb-2">
           <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white">
-            SVU Student Management
+            SVU Student Hub
           </h1>
         </div>
-        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300 bg-white/30 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">
-          Sri Venkateswara University
+        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300 bg-[#F4F4F9]/70 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">
+          Academic Management System
         </p>
       </div>
       

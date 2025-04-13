@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { format } from "date-fns";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { toast } from "sonner";
 
 export default function Projects() {
   const { user } = useAuth();
@@ -28,22 +29,22 @@ export default function Projects() {
   
   // Improved loading and error handling
   useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
+    try {
+      const timer = setTimeout(() => {
         setIsLoading(false);
-      } catch (err) {
-        console.error("Error loading projects:", err);
-        setError("Failed to load projects. Please refresh the page.");
-        setIsLoading(false);
-      }
-    }, 800);
-    return () => clearTimeout(timer);
+      }, 800);
+      return () => clearTimeout(timer);
+    } catch (err) {
+      console.error("Error loading projects:", err);
+      setError("Failed to load projects. Please refresh the page.");
+      setIsLoading(false);
+    }
   }, []);
   
   if (!user) {
     return (
       <MainLayout>
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg text-center">
+        <div className="bg-[#F4F4F9] dark:bg-[#282836] p-6 rounded-lg text-center">
           <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
         </div>
       </MainLayout>
@@ -74,8 +75,10 @@ export default function Projects() {
         startDate: "",
         endDate: "",
       });
+      toast.success("Project added successfully!");
     } catch (err) {
       console.error("Error adding project:", err);
+      toast.error("Failed to add project. Please try again.");
     }
   };
 
@@ -104,7 +107,7 @@ export default function Projects() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">My Projects</h1>
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">My Projects</h1>
               <p className="text-gray-500 dark:text-gray-300 mt-1 ml-2">
                 Manage your academic and personal projects
               </p>
@@ -207,7 +210,7 @@ export default function Projects() {
                             {format(new Date(project.startDate), 'PPP')} - {format(new Date(project.endDate), 'PPP')}
                           </CardDescription>
                         </div>
-                        <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/30 text-[#D6A4A4] dark:bg-[#D6A4A4]/40 dark:text-white">
+                        <div className="text-xs px-2 py-1 rounded-full bg-[#D6A4A4]/40 text-[#8C4F4F] dark:bg-[#D6A4A4]/40 dark:text-white">
                           Project
                         </div>
                       </div>
@@ -224,10 +227,10 @@ export default function Projects() {
                 <div className="md:col-span-2">
                   <Card className="sakura-card overflow-hidden bg-[#F4F4F9]/50 dark:bg-[#282836]/50">
                     <CardContent className="p-8 text-center">
-                      <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                      <div className="mx-auto w-16 h-16 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
                         <Award className="h-8 w-8 text-[#D6A4A4]/70" />
                       </div>
-                      <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No projects yet</h3>
+                      <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No projects yet</h3>
                       <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">
                         No records found. Please add your project details to showcase your skills and achievements.
                       </p>

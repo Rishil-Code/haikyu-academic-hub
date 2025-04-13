@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { Certificate } from '@/types/user';
 
@@ -29,8 +29,16 @@ const SAMPLE_CERTIFICATES: Certificate[] = [
 const CertificateContext = createContext<CertificateContextType | undefined>(undefined);
 
 export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [certificates, setCertificates] = useState<Certificate[]>(SAMPLE_CERTIFICATES);
+  const [certificates, setCertificates] = useState<Certificate[]>(() => {
+    const savedCertificates = localStorage.getItem('certificates');
+    return savedCertificates ? JSON.parse(savedCertificates) : SAMPLE_CERTIFICATES;
+  });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Save certificates to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('certificates', JSON.stringify(certificates));
+  }, [certificates]);
 
   const addCertificate = (certificateData: Omit<Certificate, 'id'>) => {
     try {
@@ -71,12 +79,15 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
       return new Promise((resolve) => {
         setTimeout(() => {
           setIsLoading(false);
-          resolve(`file-${Date.now()}-${file.name}`);
+          const fileUrl = `file-${Date.now()}-${file.name}`;
+          toast.success("File uploaded successfully!");
+          resolve(fileUrl);
         }, 1500);
       });
     } catch (error) {
       setIsLoading(false);
       console.error("Error uploading file:", error);
+      toast.error("Failed to upload file. Please try again.");
       throw new Error("Failed to upload file. Please try again.");
     }
   };

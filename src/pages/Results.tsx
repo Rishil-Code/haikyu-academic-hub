@@ -36,7 +36,7 @@ export default function Results() {
   if (!user) {
     return (
       <MainLayout>
-        <div className="bg-[#F4F4F9]/50 dark:bg-[#282836]/50 p-6 rounded-lg text-center">
+        <div className="bg-[#F4F4F9]/80 dark:bg-[#282836]/80 p-6 rounded-lg text-center">
           <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
         </div>
       </MainLayout>
@@ -106,13 +106,13 @@ export default function Results() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">Academic Results</h1>
+              <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">Academic Results</h1>
               <p className="text-gray-500 dark:text-gray-300 mt-1 ml-2">
                 View your semester-wise academic performance
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="bg-white/80 dark:bg-[#282836]/80 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="bg-[#F4F4F9]/80 dark:bg-[#282836]/80 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Your CGPA:</span>{" "}
                 <span className="text-lg font-bold text-[#D6A4A4] dark:text-[#D6A4A4]">{cgpa}</span>
               </div>
@@ -157,7 +157,7 @@ export default function Results() {
               {semesterRecord ? (
                 <div className="grid gap-6 md:grid-cols-2">
                   <Card className="sakura-card">
-                    <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                    <CardHeader className="bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
                       <CardTitle className="text-gray-800 dark:text-white">Marks Breakdown</CardTitle>
                       <CardDescription className="text-gray-600 dark:text-gray-300">
                         Semester {semesterRecord.semester} - 
@@ -166,7 +166,7 @@ export default function Results() {
                     </CardHeader>
                     <CardContent className="pt-4">
                       <Table>
-                        <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
+                        <TableHeader className="bg-[#F4F4F9]/50 dark:bg-gray-800/50">
                           <TableRow>
                             <TableHead className="text-gray-700 dark:text-gray-300">Subject</TableHead>
                             <TableHead className="text-right text-gray-700 dark:text-gray-300">Mid 1</TableHead>
@@ -182,7 +182,7 @@ export default function Results() {
                               : null;
                               
                             return (
-                              <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                              <TableRow key={index} className="hover:bg-[#F4F4F9]/70 dark:hover:bg-gray-800/30">
                                 <TableCell className="font-medium text-gray-700 dark:text-gray-300">{subject.name}</TableCell>
                                 <TableCell className="text-right text-gray-600 dark:text-gray-400">{subject.mid1 ?? 'N/A'}</TableCell>
                                 <TableCell className="text-right text-gray-600 dark:text-gray-400">{subject.mid2 ?? 'N/A'}</TableCell>
@@ -197,9 +197,9 @@ export default function Results() {
                       </Table>
                       
                       <div className="mt-6">
-                        <h3 className="text-md font-semibold mb-2 text-gray-800 dark:text-white px-2 py-1 rounded bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 inline-block">Laboratory Exams</h3>
+                        <h3 className="text-md font-semibold mb-2 text-gray-800 dark:text-white px-2 py-1 rounded bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/20 inline-block">Laboratory Exams</h3>
                         <Table>
-                          <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
+                          <TableHeader className="bg-[#F4F4F9]/50 dark:bg-gray-800/50">
                             <TableRow>
                               <TableHead className="text-gray-700 dark:text-gray-300">Lab</TableHead>
                               <TableHead className="text-right text-gray-700 dark:text-gray-300">Marks</TableHead>
@@ -207,7 +207,7 @@ export default function Results() {
                           </TableHeader>
                           <TableBody>
                             {semesterRecord.labs.map((lab, index) => (
-                              <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                              <TableRow key={index} className="hover:bg-[#F4F4F9]/70 dark:hover:bg-gray-800/30">
                                 <TableCell className="font-medium text-gray-700 dark:text-gray-300">{lab.name}</TableCell>
                                 <TableCell className="text-right text-gray-800 dark:text-white font-semibold">{lab.marks ?? 'N/A'}</TableCell>
                               </TableRow>
@@ -219,7 +219,7 @@ export default function Results() {
                   </Card>
                   
                   <Card className="sakura-card">
-                    <CardHeader className="bg-[#F4F4F9]/50 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
+                    <CardHeader className="bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
                       <CardTitle className="text-gray-800 dark:text-white">Performance Analysis</CardTitle>
                       <CardDescription className="text-gray-600 dark:text-gray-300">Visual representation of your marks</CardDescription>
                     </CardHeader>
@@ -252,7 +252,7 @@ export default function Results() {
               ) : (
                 <Card className="sakura-card">
                   <CardContent className="p-8 text-center">
-                    <p className="text-muted-foreground">
+                    <p className="text-gray-600 dark:text-gray-300">
                       {studentRecords.length > 0 
                         ? "Please select a semester to view results" 
                         : "No academic records found"}
@@ -264,10 +264,10 @@ export default function Results() {
           ) : (
             <Card className="sakura-card bg-[#F4F4F9]/50 dark:bg-[#282836]/50">
               <CardContent className="p-8 text-center">
-                <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
-                  <GraduationCap className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+                <div className="mx-auto w-12 h-12 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
+                  <GraduationCap className="h-6 w-6 text-[#D6A4A4]" />
                 </div>
-                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No academic records found</h3>
+                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No academic records found</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
                   Your teacher has not yet added any academic records for you. Please check back later.
                 </p>
