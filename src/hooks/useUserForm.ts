@@ -21,7 +21,7 @@ export const useUserForm = () => {
     department: "",
     gender: "male", // Default gender
     rollNo: "",
-    program: "BTech",
+    program: "BTech", // Default program
     branch: "",
   });
 

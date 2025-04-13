@@ -27,6 +27,7 @@ interface AuthContextType {
   updateUserPassword: (userId: string, newPassword: string) => boolean;
   deleteUser: (userId: string) => boolean;
   updateUserProfile: (userId: string, updatedData: Partial<ExtendedUser>) => boolean;
+  getStudentsByDepartment: (department: string) => ExtendedUser[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,6 +76,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     toast.info("You have been logged out.");
   };
 
+  // Helper to normalize department names for comparison
+  const normalizeDepartment = (department: string): string => {
+    return department.trim().toLowerCase();
+  };
+
+  // Get students filtered by department (case-insensitive)
+  const getStudentsByDepartment = (department: string): ExtendedUser[] => {
+    const normalizedDepartment = normalizeDepartment(department);
+    return users.filter(u => 
+      u.role === "student" && 
+      u.branch && 
+      normalizeDepartment(u.branch) === normalizedDepartment
+    );
+  };
+
   const createUser = (userData: Omit<User, 'id'> & { id: string, password: string }) => {
     if (users.some(u => u.id === userData.id)) {
       toast.error("User ID already exists. Please choose another.");
@@ -92,7 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } : {}),
       ...(userData.role === "student" ? {
         rollNo: userData.rollNo || "",
-        program: userData.program as "BTech" | "MTech" || "BTech",
+        program: userData.program || "BTech",
         branch: userData.branch || "",
       } : {}),
       email: userData.email || "",
@@ -192,7 +208,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       users,
       updateUserPassword,
       deleteUser,
-      updateUserProfile
+      updateUserProfile,
+      getStudentsByDepartment
     }}>
       {children}
     </AuthContext.Provider>

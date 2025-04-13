@@ -32,20 +32,9 @@ export default function Results() {
     }
   }, []);
   
-  // Handle case where user is not available
-  if (!user) {
-    return (
-      <MainLayout>
-        <div className="bg-[#F4F4F9]/80 dark:bg-[#282836]/80 p-6 rounded-lg text-center">
-          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
-        </div>
-      </MainLayout>
-    );
-  }
-  
   // Ensure we're getting the correct student records
-  const studentRecords = academicRecords[user.id] || [];
-  const cgpa = calculateCGPA(user.id);
+  const studentRecords = user ? (academicRecords[user.id] || []) : [];
+  const cgpa = user ? calculateCGPA(user.id) : 0;
   
   // Get the selected semester record
   const semesterRecord = selectedSemester 
@@ -78,6 +67,17 @@ export default function Results() {
   
   const COLORS = ['#D6A4A4', '#6D6875', '#B392AC', '#F4A9A8', '#8785A2'];
 
+  // Handle case where user is not available
+  if (!user) {
+    return (
+      <MainLayout>
+        <div className="bg-[#F4F4F9]/80 dark:bg-[#282836]/80 p-6 rounded-lg text-center">
+          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
+        </div>
+      </MainLayout>
+    );
+  }
+
   // Handle error state
   if (error) {
     return (
@@ -103,7 +103,7 @@ export default function Results() {
   return (
     <ProtectedRoute allowedRoles={["student"]}>
       <MainLayout>
-        <div className="space-y-6">
+        <div className="space-y-6 w-full">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">Academic Results</h1>
@@ -127,9 +127,9 @@ export default function Results() {
             </div>
           ) : studentRecords && studentRecords.length > 0 ? (
             <>
-              <Card className="sakura-card">
+              <Card className="sakura-card bg-white dark:bg-[#282836]">
                 <CardHeader>
-                  <CardTitle className="text-gray-800 dark:text-white">Select Semester</CardTitle>
+                  <CardTitle className="text-gray-800 dark:text-white bg-[#D6A4A4]/30 px-2 py-1 rounded-lg inline-block">Select Semester</CardTitle>
                   <CardDescription className="text-gray-600 dark:text-gray-300">Choose a semester to view detailed results</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -156,9 +156,9 @@ export default function Results() {
               
               {semesterRecord ? (
                 <div className="grid gap-6 md:grid-cols-2">
-                  <Card className="sakura-card">
+                  <Card className="sakura-card bg-white dark:bg-[#282836]">
                     <CardHeader className="bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
-                      <CardTitle className="text-gray-800 dark:text-white">Marks Breakdown</CardTitle>
+                      <CardTitle className="text-gray-800 dark:text-white bg-[#D6A4A4]/30 px-2 py-1 rounded-lg inline-block">Marks Breakdown</CardTitle>
                       <CardDescription className="text-gray-600 dark:text-gray-300">
                         Semester {semesterRecord.semester} - 
                         <span className="ml-1 font-medium text-[#D6A4A4]">SGPA: {semesterRecord.sgpa}</span>
@@ -218,9 +218,9 @@ export default function Results() {
                     </CardContent>
                   </Card>
                   
-                  <Card className="sakura-card">
+                  <Card className="sakura-card bg-white dark:bg-[#282836]">
                     <CardHeader className="bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/30 border-b border-gray-100 dark:border-gray-800">
-                      <CardTitle className="text-gray-800 dark:text-white">Performance Analysis</CardTitle>
+                      <CardTitle className="text-gray-800 dark:text-white bg-[#D6A4A4]/30 px-2 py-1 rounded-lg inline-block">Performance Analysis</CardTitle>
                       <CardDescription className="text-gray-600 dark:text-gray-300">Visual representation of your marks</CardDescription>
                     </CardHeader>
                     <CardContent className="pt-4">
@@ -250,7 +250,7 @@ export default function Results() {
                   </Card>
                 </div>
               ) : (
-                <Card className="sakura-card">
+                <Card className="sakura-card bg-white dark:bg-[#282836]">
                   <CardContent className="p-8 text-center">
                     <p className="text-gray-600 dark:text-gray-300">
                       {studentRecords.length > 0 

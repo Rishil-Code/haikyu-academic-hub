@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Briefcase, Calendar, Plus, Building2, Loader2 } from "lucide-react";
+import { Briefcase, Calendar, Plus, Building2, Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { format } from "date-fns";
@@ -42,18 +42,8 @@ export default function Internships() {
     return () => clearTimeout(timer);
   }, []);
   
-  if (!user) {
-    return (
-      <MainLayout>
-        <div className="bg-[#F4F4F9] dark:bg-[#282836] p-6 rounded-lg text-center">
-          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
-        </div>
-      </MainLayout>
-    );
-  }
-  
   // Make sure to properly filter internships for the current user
-  const userInternships = internships.filter(internship => internship.studentId === user.id);
+  const userInternships = user ? internships.filter(internship => internship.studentId === user.id) : [];
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -62,6 +52,11 @@ export default function Internships() {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast.error("You must be logged in to add an internship");
+      return;
+    }
     
     try {
       addInternship({
@@ -84,12 +79,23 @@ export default function Internships() {
     }
   };
 
+  if (!user) {
+    return (
+      <MainLayout>
+        <div className="bg-[#F4F4F9] dark:bg-[#282836] p-6 rounded-lg text-center">
+          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
+        </div>
+      </MainLayout>
+    );
+  }
+
   // Handle error state
   if (error) {
     return (
       <ProtectedRoute allowedRoles={["student"]}>
         <MainLayout>
           <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg text-center">
+            <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-2" />
             <p className="text-red-700 dark:text-red-300">{error}</p>
             <Button 
               className="mt-4 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-800 dark:text-red-100 dark:hover:bg-red-700"
@@ -106,7 +112,7 @@ export default function Internships() {
   return (
     <ProtectedRoute allowedRoles={["student"]}>
       <MainLayout>
-        <div className="space-y-6">
+        <div className="space-y-6 w-full">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">My Internships</h1>
@@ -114,23 +120,23 @@ export default function Internships() {
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button className="btn-sakura">
+                <Button className="btn-sakura bg-[#D6A4A4] hover:bg-[#C98C8C] text-white">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Internship
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sakura-card sm:max-w-[550px]">
+              <DialogContent className="sakura-card sm:max-w-[550px] bg-white dark:bg-[#282836]">
                 <form onSubmit={handleSubmit}>
                   <DialogHeader>
-                    <DialogTitle className="text-gray-800 dark:text-white">Add New Internship</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-gray-800 dark:text-white bg-[#D6A4A4]/30 px-2 py-1 rounded-lg inline-block">Add New Internship</DialogTitle>
+                    <DialogDescription className="text-gray-600 dark:text-gray-300">
                       Enter details about your internship experience
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="company" className="text-gray-800 dark:text-gray-200">Company Name</Label>
+                        <Label htmlFor="company" className="text-gray-800 dark:text-gray-200 bg-[#F4F4F9]/70 dark:bg-[#1E1E2F]/70 px-2 py-1 rounded-md">Company Name</Label>
                         <Input
                           id="company"
                           name="company"
@@ -142,7 +148,7 @@ export default function Internships() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="role" className="text-gray-800 dark:text-gray-200">Your Role</Label>
+                        <Label htmlFor="role" className="text-gray-800 dark:text-gray-200 bg-[#F4F4F9]/70 dark:bg-[#1E1E2F]/70 px-2 py-1 rounded-md">Your Role</Label>
                         <Input
                           id="role"
                           name="role"
@@ -155,7 +161,7 @@ export default function Internships() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="description" className="text-gray-800 dark:text-gray-200">Description of Work</Label>
+                      <Label htmlFor="description" className="text-gray-800 dark:text-gray-200 bg-[#F4F4F9]/70 dark:bg-[#1E1E2F]/70 px-2 py-1 rounded-md">Description of Work</Label>
                       <Textarea
                         id="description"
                         name="description"
@@ -169,7 +175,7 @@ export default function Internships() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="startDate" className="text-gray-800 dark:text-gray-200">Start Date</Label>
+                        <Label htmlFor="startDate" className="text-gray-800 dark:text-gray-200 bg-[#F4F4F9]/70 dark:bg-[#1E1E2F]/70 px-2 py-1 rounded-md">Start Date</Label>
                         <Input
                           id="startDate"
                           name="startDate"
@@ -181,7 +187,7 @@ export default function Internships() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="endDate" className="text-gray-800 dark:text-gray-200">End Date</Label>
+                        <Label htmlFor="endDate" className="text-gray-800 dark:text-gray-200 bg-[#F4F4F9]/70 dark:bg-[#1E1E2F]/70 px-2 py-1 rounded-md">End Date</Label>
                         <Input
                           id="endDate"
                           name="endDate"
@@ -195,7 +201,7 @@ export default function Internships() {
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit" className="btn-sakura">Add Internship</Button>
+                    <Button type="submit" className="btn-sakura bg-[#D6A4A4] hover:bg-[#C98C8C] text-white">Add Internship</Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
@@ -211,7 +217,7 @@ export default function Internships() {
             <div className="grid gap-6 md:grid-cols-2">
               {userInternships && userInternships.length > 0 ? (
                 userInternships.map(internship => (
-                  <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300">
+                  <Card key={internship.id} className="sakura-card overflow-hidden hover:shadow-xl transition-all duration-300 bg-white dark:bg-[#282836]">
                     <CardHeader className="pb-2 bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/50">
                       <div className="flex justify-between items-start">
                         <div>
@@ -252,7 +258,7 @@ export default function Internships() {
                         No records found. Please add your internship details to showcase your professional experience to potential employers.
                       </p>
                       <DialogTrigger asChild>
-                        <Button className="btn-sakura px-6 py-3">
+                        <Button className="btn-sakura px-6 py-3 bg-[#D6A4A4] hover:bg-[#C98C8C] text-white">
                           <Plus className="mr-2 h-4 w-4" />
                           Add Your First Internship
                         </Button>

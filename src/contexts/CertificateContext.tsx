@@ -6,6 +6,7 @@ import { Certificate } from '@/types/user';
 interface CertificateContextType {
   certificates: Certificate[];
   isLoading: boolean;
+  error: string | null;
   addCertificate: (certificate: Omit<Certificate, 'id'>) => void;
   deleteCertificate: (certificateId: string) => void;
   getUserCertificates: (userId: string) => Certificate[];
@@ -30,14 +31,26 @@ const CertificateContext = createContext<CertificateContextType | undefined>(und
 
 export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [certificates, setCertificates] = useState<Certificate[]>(() => {
-    const savedCertificates = localStorage.getItem('certificates');
-    return savedCertificates ? JSON.parse(savedCertificates) : SAMPLE_CERTIFICATES;
+    try {
+      const savedCertificates = localStorage.getItem('certificates');
+      return savedCertificates ? JSON.parse(savedCertificates) : SAMPLE_CERTIFICATES;
+    } catch (error) {
+      console.error("Error loading certificates from storage:", error);
+      return SAMPLE_CERTIFICATES;
+    }
   });
+  
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Save certificates to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('certificates', JSON.stringify(certificates));
+    try {
+      localStorage.setItem('certificates', JSON.stringify(certificates));
+    } catch (error) {
+      console.error("Error saving certificates to storage:", error);
+      setError("Failed to save certificates. Please try again.");
+    }
   }, [certificates]);
 
   const addCertificate = (certificateData: Omit<Certificate, 'id'>) => {
@@ -52,6 +65,7 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
       toast.success("Certificate added successfully!");
     } catch (error) {
       console.error("Error adding certificate:", error);
+      setError("Failed to add certificate. Please try again.");
       toast.error("Failed to add certificate. Please try again.");
     }
   };
@@ -62,17 +76,25 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
       toast.success("Certificate deleted successfully!");
     } catch (error) {
       console.error("Error deleting certificate:", error);
+      setError("Failed to delete certificate. Please try again.");
       toast.error("Failed to delete certificate. Please try again.");
     }
   };
 
   const getUserCertificates = (userId: string): Certificate[] => {
-    return certificates.filter(cert => cert.userId === userId);
+    try {
+      return certificates.filter(cert => cert.userId === userId);
+    } catch (error) {
+      console.error("Error fetching user certificates:", error);
+      setError("Failed to fetch certificates. Please try again.");
+      return [];
+    }
   };
 
   // Simulated file upload function with improved error handling
   const uploadCertificateFile = async (file: File): Promise<string> => {
     setIsLoading(true);
+    setError(null);
     
     try {
       // Simulate network delay for upload
@@ -86,9 +108,11 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
       });
     } catch (error) {
       setIsLoading(false);
+      const errorMessage = "Failed to upload file. Please try again.";
       console.error("Error uploading file:", error);
-      toast.error("Failed to upload file. Please try again.");
-      throw new Error("Failed to upload file. Please try again.");
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -96,6 +120,7 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
     <CertificateContext.Provider value={{
       certificates,
       isLoading,
+      error,
       addCertificate,
       deleteCertificate,
       getUserCertificates,

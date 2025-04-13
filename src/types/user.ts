@@ -2,6 +2,9 @@
 // Define user roles
 export type UserRole = 'admin' | 'teacher' | 'student';
 
+// Define program types
+export type Program = 'BTech' | 'MTech' | 'BSc' | 'MSc' | 'BCA' | 'MCA' | 'BBA' | 'MBA' | 'BA' | 'MA' | 'Diploma';
+
 // Define admin privileges
 export interface AdminPrivileges {
   canManageUsers: boolean;
@@ -18,7 +21,7 @@ export interface User {
   password?: string;
   department?: string;
   rollNo?: string;
-  program?: 'BTech' | 'MTech';
+  program?: Program;
   branch?: string;
   gender?: 'male' | 'female' | 'other';
   email?: string;
