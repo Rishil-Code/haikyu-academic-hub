@@ -33,36 +33,52 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [isLoading, setIsLoading] = useState(false);
 
   const addCertificate = (certificateData: Omit<Certificate, 'id'>) => {
-    const newCertificate: Certificate = {
-      ...certificateData,
-      id: `cert-${Date.now()}`,
-      uploadDate: new Date().toISOString().split('T')[0],
-    };
-    
-    setCertificates(prev => [...prev, newCertificate]);
-    toast.success("Certificate added successfully!");
+    try {
+      const newCertificate: Certificate = {
+        ...certificateData,
+        id: `cert-${Date.now()}`,
+        uploadDate: new Date().toISOString().split('T')[0],
+      };
+      
+      setCertificates(prev => [...prev, newCertificate]);
+      toast.success("Certificate added successfully!");
+    } catch (error) {
+      console.error("Error adding certificate:", error);
+      toast.error("Failed to add certificate. Please try again.");
+    }
   };
 
   const deleteCertificate = (certificateId: string) => {
-    setCertificates(prev => prev.filter(cert => cert.id !== certificateId));
-    toast.success("Certificate deleted successfully!");
+    try {
+      setCertificates(prev => prev.filter(cert => cert.id !== certificateId));
+      toast.success("Certificate deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting certificate:", error);
+      toast.error("Failed to delete certificate. Please try again.");
+    }
   };
 
   const getUserCertificates = (userId: string): Certificate[] => {
     return certificates.filter(cert => cert.userId === userId);
   };
 
-  // Simulated file upload function
+  // Simulated file upload function with improved error handling
   const uploadCertificateFile = async (file: File): Promise<string> => {
     setIsLoading(true);
     
-    // Simulate network delay for upload
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setIsLoading(false);
-        resolve(`file-${Date.now()}-${file.name}`);
-      }, 1500);
-    });
+    try {
+      // Simulate network delay for upload
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          setIsLoading(false);
+          resolve(`file-${Date.now()}-${file.name}`);
+        }, 1500);
+      });
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error uploading file:", error);
+      throw new Error("Failed to upload file. Please try again.");
+    }
   };
 
   return (

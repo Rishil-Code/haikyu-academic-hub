@@ -17,7 +17,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuth();
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#F4F4F9] to-white overflow-hidden relative">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#F4F4F9] to-white dark:from-[#1E1E2F] dark:to-[#282836] overflow-hidden relative">
       {/* Cherry Blossom Petals (fewer for the dashboard) */}
       <div className="cherry-petal"></div>
       <div className="cherry-petal"></div>
@@ -72,14 +72,14 @@ export function MainLayout({ children }: MainLayoutProps) {
             >
               <MenuIcon className="h-5 w-5" />
             </Button>
-            <span className="text-lg font-semibold hidden sm:inline-block text-white">
+            <span className="text-lg font-semibold hidden sm:inline-block text-white bg-[#6D6875]/60 px-3 py-1 rounded-full">
               SVU Student Management
             </span>
           </div>
           
           {user && (
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-white/90 hidden sm:block">
+              <div className="text-sm text-white/90 hidden sm:block bg-[#6D6875]/60 px-3 py-1 rounded-full">
                 {user.name} <span className="text-xs text-white/70 capitalize">({user.role})</span>
               </div>
               <div className="h-9 w-9 rounded-full bg-white/20 text-white flex items-center justify-center text-sm font-medium shadow-inner">
@@ -91,7 +91,7 @@ export function MainLayout({ children }: MainLayoutProps) {
 
         {/* Main content */}
         <main className="flex-1 overflow-auto">
-          <div className="container py-6">
+          <div className="container max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             {children}
           </div>
         </main>

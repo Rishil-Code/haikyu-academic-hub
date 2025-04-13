@@ -52,7 +52,9 @@ export default function Login() {
             SVU Student Management
           </h1>
         </div>
-        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300 bg-white/30 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">Sri Venkateswara University College</p>
+        <p className="mt-2 text-lg text-[#6D6875] dark:text-gray-300 bg-white/30 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">
+          Sri Venkateswara University
+        </p>
       </div>
       
       <div className="w-full max-w-md animate-fade-in relative z-10">

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ export default function Projects() {
   const { projects, addProject } = useAcademic();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -25,15 +26,29 @@ export default function Projects() {
     endDate: "",
   });
   
-  // Simulate loading for a short time to ensure proper data fetching
-  React.useEffect(() => {
+  // Improved loading and error handling
+  useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
+      try {
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error loading projects:", err);
+        setError("Failed to load projects. Please refresh the page.");
+        setIsLoading(false);
+      }
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
   
-  if (!user) return null;
+  if (!user) {
+    return (
+      <MainLayout>
+        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg text-center">
+          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
+        </div>
+      </MainLayout>
+    );
+  }
   
   // Make sure to properly filter projects for the current user
   const userProjects = projects.filter(project => project.studentId === user.id);
@@ -46,19 +61,42 @@ export default function Projects() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    addProject({
-      ...formData,
-      studentId: user.id,
-    });
-    
-    setOpen(false);
-    setFormData({
-      title: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-    });
+    try {
+      addProject({
+        ...formData,
+        studentId: user.id,
+      });
+      
+      setOpen(false);
+      setFormData({
+        title: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+      });
+    } catch (err) {
+      console.error("Error adding project:", err);
+    }
   };
+
+  // Handle error state
+  if (error) {
+    return (
+      <ProtectedRoute allowedRoles={["student"]}>
+        <MainLayout>
+          <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg text-center">
+            <p className="text-red-700 dark:text-red-300">{error}</p>
+            <Button 
+              className="mt-4 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-800 dark:text-red-100 dark:hover:bg-red-700"
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </Button>
+          </div>
+        </MainLayout>
+      </ProtectedRoute>
+    );
+  }
 
   return (
     <ProtectedRoute allowedRoles={["student"]}>
@@ -96,7 +134,7 @@ export default function Projects() {
                         value={formData.title}
                         onChange={handleChange}
                         required
-                        className="input-field"
+                        className="input-field bg-white dark:bg-gray-800"
                       />
                     </div>
                     <div className="space-y-2">
@@ -109,7 +147,7 @@ export default function Projects() {
                         onChange={handleChange}
                         rows={4}
                         required
-                        className="input-field resize-none"
+                        className="input-field resize-none bg-white dark:bg-gray-800"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -122,7 +160,7 @@ export default function Projects() {
                           value={formData.startDate}
                           onChange={handleChange}
                           required
-                          className="input-field"
+                          className="input-field bg-white dark:bg-gray-800"
                         />
                       </div>
                       <div className="space-y-2">
@@ -134,7 +172,7 @@ export default function Projects() {
                           value={formData.endDate}
                           onChange={handleChange}
                           required
-                          className="input-field"
+                          className="input-field bg-white dark:bg-gray-800"
                         />
                       </div>
                     </div>
@@ -148,12 +186,13 @@ export default function Projects() {
           </div>
           
           {isLoading ? (
-            <div className="flex justify-center items-center py-12">
+            <div className="flex justify-center items-center py-12 bg-[#F4F4F9]/50 dark:bg-[#282836]/50 rounded-lg">
               <Loader2 className="h-8 w-8 animate-spin text-[#D6A4A4]" />
+              <span className="ml-2 text-gray-600 dark:text-gray-300">Loading your projects...</span>
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2">
-              {userProjects.length > 0 ? (
+              {userProjects && userProjects.length > 0 ? (
                 userProjects.map(project => (
                   <Card key={project.id} className="sakura-card overflow-hidden hover:shadow-lg transition-all duration-300">
                     <CardHeader className="pb-2 bg-[#F4F4F9]/70 dark:bg-[#2B2D42]/50">
@@ -183,13 +222,13 @@ export default function Projects() {
                 ))
               ) : (
                 <div className="md:col-span-2">
-                  <Card className="sakura-card">
+                  <Card className="sakura-card overflow-hidden bg-[#F4F4F9]/50 dark:bg-[#282836]/50">
                     <CardContent className="p-8 text-center">
                       <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                         <Award className="h-8 w-8 text-[#D6A4A4]/70" />
                       </div>
                       <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No projects yet</h3>
-                      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                      <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">
                         No records found. Please add your project details to showcase your skills and achievements.
                       </p>
                       <DialogTrigger asChild>
