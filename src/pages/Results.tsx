@@ -66,48 +66,15 @@ export default function Results() {
   };
   
   const COLORS = ['#D6A4A4', '#6D6875', '#B392AC', '#F4A9A8', '#8785A2'];
-
-  // Handle case where user is not available
-  if (!user) {
-    return (
-      <MainLayout>
-        <div className="bg-[#F4F4F9]/80 dark:bg-[#282836]/80 p-6 rounded-lg text-center">
-          <p className="text-gray-700 dark:text-gray-300">Please log in to view this page.</p>
-        </div>
-      </MainLayout>
-    );
-  }
-
-  // Handle error state
-  if (error) {
-    return (
-      <ProtectedRoute allowedRoles={["student"]}>
-        <MainLayout>
-          <div className="flex items-center justify-center p-6">
-            <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg text-center max-w-md">
-              <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-2" />
-              <p className="text-red-700 dark:text-red-300">{error}</p>
-              <button 
-                className="mt-4 px-4 py-2 bg-red-100 text-red-800 rounded-md hover:bg-red-200 dark:bg-red-800 dark:text-red-100 dark:hover:bg-red-700"
-                onClick={() => window.location.reload()}
-              >
-                Retry
-              </button>
-            </div>
-          </div>
-        </MainLayout>
-      </ProtectedRoute>
-    );
-  }
-
+  
   return (
     <ProtectedRoute allowedRoles={["student"]}>
       <MainLayout>
-        <div className="space-y-6 w-full">
+        <div className="space-y-6 w-full max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold tracking-tight bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-4 py-1 rounded-full inline-block text-gray-800 dark:text-white">Academic Results</h1>
-              <p className="text-gray-500 dark:text-gray-300 mt-1 ml-2">
+              <p className="text-gray-600 dark:text-gray-300 mt-1 ml-2">
                 View your semester-wise academic performance
               </p>
             </div>
@@ -125,6 +92,19 @@ export default function Results() {
               <Loader2 className="h-8 w-8 animate-spin text-[#D6A4A4]" />
               <span className="ml-2 text-gray-600 dark:text-gray-300">Loading your academic records...</span>
             </div>
+          ) : error ? (
+            <div className="flex items-center justify-center p-6">
+              <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg text-center max-w-md">
+                <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-2" />
+                <p className="text-red-700 dark:text-red-300">{error}</p>
+                <button 
+                  className="mt-4 px-4 py-2 bg-red-100 text-red-800 rounded-md hover:bg-red-200 dark:bg-red-800 dark:text-red-100 dark:hover:bg-red-700"
+                  onClick={() => window.location.reload()}
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
           ) : studentRecords && studentRecords.length > 0 ? (
             <>
               <Card className="sakura-card bg-white dark:bg-[#282836]">
@@ -137,14 +117,15 @@ export default function Results() {
                     value={selectedSemester}
                     onValueChange={setSelectedSemester}
                   >
-                    <SelectTrigger className="w-full sm:w-[200px] input-field bg-white dark:bg-gray-800">
+                    <SelectTrigger className="w-full sm:w-[200px] input-field bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                       <SelectValue placeholder="Select semester" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                       {studentRecords.map(record => (
                         <SelectItem 
                           key={record.semester} 
                           value={record.semester.toString()}
+                          className="text-gray-800 dark:text-gray-200"
                         >
                           Semester {record.semester}
                         </SelectItem>
@@ -241,8 +222,8 @@ export default function Results() {
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                               ))}
                             </Pie>
-                            <Tooltip />
-                            <Legend />
+                            <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#333' }} />
+                            <Legend formatter={(value) => <span className="text-gray-700 dark:text-gray-300">{value}</span>} />
                           </PieChart>
                         </ResponsiveContainer>
                       </div>
@@ -267,9 +248,9 @@ export default function Results() {
                 <div className="mx-auto w-12 h-12 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
                   <GraduationCap className="h-6 w-6 text-[#D6A4A4]" />
                 </div>
-                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No academic records found</h3>
+                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No results found yet</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
-                  Your teacher has not yet added any academic records for you. Please check back later.
+                  Your academic records have not been added yet. Please check back later.
                 </p>
               </CardContent>
             </Card>

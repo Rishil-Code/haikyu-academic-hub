@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Program } from "@/types/user";
 
 interface FormData {
   id: string;
@@ -8,7 +9,7 @@ interface FormData {
   department: string;
   gender: string;
   rollNo: string;
-  program: string;
+  program: Program; // Changed from string to Program type
   branch: string;
 }
 
@@ -21,7 +22,7 @@ export const useUserForm = () => {
     department: "",
     gender: "male", // Default gender
     rollNo: "",
-    program: "BTech", // Default program
+    program: "BTech", // Default program as Program type
     branch: "",
   });
 

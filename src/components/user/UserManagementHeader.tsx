@@ -11,17 +11,17 @@ interface UserManagementHeaderProps {
 
 export function UserManagementHeader({ open, setOpen }: UserManagementHeaderProps) {
   return (
-    <div className="flex justify-between items-center mb-6 bg-gradient-to-r from-[#1E1E2F]/90 to-[#2B2D42]/90 p-4 rounded-xl">
-      <div>
+    <div className="flex flex-col items-center mb-6 bg-gradient-to-r from-[#1E1E2F]/90 to-[#2B2D42]/90 p-4 rounded-xl">
+      <div className="text-center mb-4">
         <h1 className="text-3xl font-bold tracking-tight text-white bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block">User Management</h1>
         <p className="text-indigo-200 mt-1">Create and manage student and teacher accounts</p>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="w-full flex justify-center mt-2">
         <Button 
-          className="btn-haikyu bg-[#D6A4A4] hover:bg-[#C98C8C] text-white"
+          className="btn-haikyu bg-[#D6A4A4] hover:bg-[#C98C8C] text-white font-medium px-6 py-2 rounded-xl shadow-md"
           onClick={() => setOpen(true)}
         >
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 h-5 w-5" />
           Create User
         </Button>
       </div>

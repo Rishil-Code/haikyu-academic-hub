@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
-import { UserRole } from "@/types/user";
+import { UserRole, Program } from "@/types/user";
 import { toast } from "sonner";
 import { RoleSelector } from "@/components/user/forms/RoleSelector";
 import { TeacherForm } from "@/components/user/forms/TeacherForm";
@@ -136,7 +136,7 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
     const userData = {
       ...formData,
       role,
-      program: formData.program,
+      program: formData.program as Program, // Cast to Program type
       gender: formData.gender as "male" | "female" | "other",
     };
     
@@ -147,11 +147,11 @@ export function CreateUserDialog({ open, setOpen }: CreateUserDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="bg-white shadow-md rounded-2xl p-6 text-[#2B2D42] max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-white dark:bg-[#282836] shadow-md rounded-2xl p-6 text-[#2B2D42] dark:text-gray-200 max-w-3xl max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-slate-800 bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block">Create New User</DialogTitle>
-            <DialogDescription className="text-[#6D6875]">
+            <DialogTitle className="text-xl font-semibold text-slate-800 dark:text-white bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block">Create New User</DialogTitle>
+            <DialogDescription className="text-[#6D6875] dark:text-gray-300">
               Add a new teacher or student account to the system.
             </DialogDescription>
           </DialogHeader>
