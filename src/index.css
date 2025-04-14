@@ -62,7 +62,7 @@ body {
   }
   
   .btn-sakura {
-    @apply bg-[#D6A4A4] hover:bg-[#C98C8C] text-white font-medium rounded-lg transition-colors;
+    @apply bg-[#D6A4A4] hover:bg-[#C98C8C] text-gray-800 dark:text-white font-medium rounded-lg transition-colors;
   }
   
   .input-field {
@@ -87,6 +87,26 @@ body {
   
   .page-title {
     @apply text-3xl font-bold tracking-tight text-gray-800 dark:text-white bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-4 py-1 rounded-full inline-block;
+  }
+  
+  /* Field containers with better visibility */
+  .field-container {
+    @apply bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-sm;
+  }
+  
+  /* Label with better contrast */
+  .contrast-label {
+    @apply text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md;
+  }
+  
+  /* Input with better contrast */
+  .contrast-input {
+    @apply border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20;
+  }
+  
+  /* Select with better contrast */
+  .contrast-select {
+    @apply border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
   }
   
   /* Empty state component */

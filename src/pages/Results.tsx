@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAcademic } from "@/contexts/AcademicContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
-import { GraduationCap, Loader2, AlertCircle } from "lucide-react";
+import { GraduationCap, Loader2, AlertCircle, FileSpreadsheet } from "lucide-react";
 
 export default function Results() {
   const { user } = useAuth();
@@ -18,11 +18,14 @@ export default function Results() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Improved loading and error handling
+  // Force reload academic records when the component mounts
   useEffect(() => {
     try {
+      // Simulate loading time
       const timer = setTimeout(() => {
         setIsLoading(false);
+        // Force a re-render to get latest data
+        setSelectedSemester("");
       }, 1000);
       return () => clearTimeout(timer);
     } catch (err) {
@@ -31,9 +34,14 @@ export default function Results() {
       setIsLoading(false);
     }
   }, []);
+
+  console.log("Academic Records:", academicRecords);
+  console.log("User ID:", user?.id);
   
   // Ensure we're getting the correct student records
   const studentRecords = user ? (academicRecords[user.id] || []) : [];
+  console.log("Student Records:", studentRecords);
+  
   const cgpa = user ? calculateCGPA(user.id) : 0;
   
   // Get the selected semester record
@@ -179,22 +187,28 @@ export default function Results() {
                       
                       <div className="mt-6">
                         <h3 className="text-md font-semibold mb-2 text-gray-800 dark:text-white px-2 py-1 rounded bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/20 inline-block">Laboratory Exams</h3>
-                        <Table>
-                          <TableHeader className="bg-[#F4F4F9]/50 dark:bg-gray-800/50">
-                            <TableRow>
-                              <TableHead className="text-gray-700 dark:text-gray-300">Lab</TableHead>
-                              <TableHead className="text-right text-gray-700 dark:text-gray-300">Marks</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {semesterRecord.labs.map((lab, index) => (
-                              <TableRow key={index} className="hover:bg-[#F4F4F9]/70 dark:hover:bg-gray-800/30">
-                                <TableCell className="font-medium text-gray-700 dark:text-gray-300">{lab.name}</TableCell>
-                                <TableCell className="text-right text-gray-800 dark:text-white font-semibold">{lab.marks ?? 'N/A'}</TableCell>
+                        {semesterRecord.labs && semesterRecord.labs.length > 0 ? (
+                          <Table>
+                            <TableHeader className="bg-[#F4F4F9]/50 dark:bg-gray-800/50">
+                              <TableRow>
+                                <TableHead className="text-gray-700 dark:text-gray-300">Lab</TableHead>
+                                <TableHead className="text-right text-gray-700 dark:text-gray-300">Marks</TableHead>
                               </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
+                            </TableHeader>
+                            <TableBody>
+                              {semesterRecord.labs.map((lab, index) => (
+                                <TableRow key={index} className="hover:bg-[#F4F4F9]/70 dark:hover:bg-gray-800/30">
+                                  <TableCell className="font-medium text-gray-700 dark:text-gray-300">{lab.name}</TableCell>
+                                  <TableCell className="text-right text-gray-800 dark:text-white font-semibold">{lab.marks ?? 'N/A'}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        ) : (
+                          <div className="empty-state p-4">
+                            <p className="text-gray-600 dark:text-gray-400">No laboratory courses for this semester</p>
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -205,28 +219,34 @@ export default function Results() {
                       <CardDescription className="text-gray-600 dark:text-gray-300">Visual representation of your marks</CardDescription>
                     </CardHeader>
                     <CardContent className="pt-4">
-                      <div className="h-[300px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                            <Pie
-                              data={getPerformanceData()}
-                              cx="50%"
-                              cy="50%"
-                              outerRadius={80}
-                              fill="#8884d8"
-                              dataKey="value"
-                              nameKey="name"
-                              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                            >
-                              {getPerformanceData().map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                              ))}
-                            </Pie>
-                            <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#333' }} />
-                            <Legend formatter={(value) => <span className="text-gray-700 dark:text-gray-300">{value}</span>} />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </div>
+                      {getPerformanceData().length > 0 ? (
+                        <div className="h-[300px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={getPerformanceData()}
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={80}
+                                fill="#8884d8"
+                                dataKey="value"
+                                nameKey="name"
+                                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                              >
+                                {getPerformanceData().map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                              </Pie>
+                              <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#333' }} />
+                              <Legend formatter={(value) => <span className="text-gray-700 dark:text-gray-300">{value}</span>} />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                      ) : (
+                        <div className="empty-state">
+                          <p className="text-gray-600 dark:text-gray-300">Not enough data for visualization</p>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </div>
@@ -245,13 +265,15 @@ export default function Results() {
           ) : (
             <Card className="sakura-card bg-[#F4F4F9]/50 dark:bg-[#282836]/50">
               <CardContent className="p-8 text-center">
-                <div className="mx-auto w-12 h-12 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
-                  <GraduationCap className="h-6 w-6 text-[#D6A4A4]" />
+                <div className="empty-state">
+                  <div className="mx-auto w-12 h-12 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
+                    <FileSpreadsheet className="h-6 w-6 text-[#D6A4A4]" />
+                  </div>
+                  <h3 className="empty-state-text">No results found yet</h3>
+                  <p className="empty-state-subtext">
+                    Your academic records have not been added yet. Please check back later or contact your teacher.
+                  </p>
                 </div>
-                <h3 className="text-lg font-medium mb-2 bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No results found yet</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
-                  Your academic records have not been added yet. Please check back later.
-                </p>
               </CardContent>
             </Card>
           )}

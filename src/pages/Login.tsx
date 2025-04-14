@@ -48,8 +48,8 @@ export default function Login() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 backdrop-blur-sm inline-block">
-            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+          <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/70 dark:bg-[#D6A4A4]/40 backdrop-blur-sm inline-block">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               SVU Student Hub
             </h1>
           </div>
