@@ -43,4 +43,5 @@ export interface Certificate {
   fileUrl?: string;
   uploadDate?: string; // Adding upload date for better tracking
   description?: string; // Optional description field
+  userData?: Partial<User>; // Add userData to store user information
 }

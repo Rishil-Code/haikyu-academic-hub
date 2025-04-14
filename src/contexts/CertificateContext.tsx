@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
-import { Certificate } from '@/types/user';
+import { Certificate, User } from '@/types/user';
 import { storeCertificates, retrieveCertificates } from '@/utils/storage';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -90,8 +90,8 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
     } else if (user.role === 'teacher') {
       // Teachers can see certificates from students in their department
       return certificates.filter(cert => {
-        const certUser = cert.userData;
-        return certUser && certUser.department === user.department;
+        const certUserData = cert.userData;
+        return certUserData && certUserData.department === user.department;
       });
     } else if (user.role === 'admin') {
       // Admins can see all certificates

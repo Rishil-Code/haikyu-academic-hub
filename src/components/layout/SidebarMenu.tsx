@@ -89,7 +89,7 @@ export function SidebarMenu() {
     <div className="space-y-1 px-2 py-4">
       {/* SVU Management label with better contrast */}
       <div className="mb-4 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-md">
-        <h3 className="text-base font-bold text-gray-800 dark:text-white">SVU Management</h3>
+        <h3 className="text-base font-bold text-gray-800 dark:text-white bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-2 py-1 rounded-lg inline-block">SVU Management</h3>
       </div>
       
       {menuItems.map((item) => (
