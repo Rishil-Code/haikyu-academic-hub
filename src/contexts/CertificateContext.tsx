@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { Certificate } from '@/types/user';
+import { storeCertificates, retrieveCertificates } from '@/utils/storage';
 
 interface CertificateContextType {
   certificates: Certificate[];
@@ -13,30 +14,15 @@ interface CertificateContextType {
   uploadCertificateFile: (file: File) => Promise<string>;
 }
 
-// Sample initial data
-const SAMPLE_CERTIFICATES: Certificate[] = [
-  {
-    id: 'cert1',
-    userId: 'student1',
-    name: 'Python Programming',
-    issuingAuthority: 'Coursera',
-    issueDate: '2023-05-15',
-    fileUrl: '',
-    uploadDate: '2023-05-20',
-    description: 'Completed an advanced Python programming course covering data structures, algorithms, and machine learning concepts.'
-  },
-];
-
 const CertificateContext = createContext<CertificateContextType | undefined>(undefined);
 
 export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [certificates, setCertificates] = useState<Certificate[]>(() => {
     try {
-      const savedCertificates = localStorage.getItem('certificates');
-      return savedCertificates ? JSON.parse(savedCertificates) : SAMPLE_CERTIFICATES;
+      return retrieveCertificates();
     } catch (error) {
       console.error("Error loading certificates from storage:", error);
-      return SAMPLE_CERTIFICATES;
+      return [];
     }
   });
   
@@ -46,7 +32,7 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
   // Save certificates to localStorage whenever they change
   useEffect(() => {
     try {
-      localStorage.setItem('certificates', JSON.stringify(certificates));
+      storeCertificates(certificates);
     } catch (error) {
       console.error("Error saving certificates to storage:", error);
       setError("Failed to save certificates. Please try again.");

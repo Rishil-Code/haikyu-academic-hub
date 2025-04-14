@@ -1,7 +1,13 @@
-
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
-import { User } from './AuthContext';
+import { 
+  storeAcademicRecords, 
+  retrieveAcademicRecords, 
+  storeProjects,
+  retrieveProjects,
+  storeInternships,
+  retrieveInternships
+} from '@/utils/storage';
 
 // Academic record types
 export interface Subject {
@@ -56,54 +62,38 @@ interface AcademicContextType {
   addInternship: (internship: Omit<Internship, 'id'>) => void;
 }
 
-// Sample data
-const SAMPLE_ACADEMIC_RECORDS: Record<string, SemesterRecord[]> = {
-  student1: [
-    {
-      semester: 1,
-      subjects: [
-        { name: 'Python Programming', mid1: 25, mid2: 23, semExam: 70, credits: 4 },
-        { name: 'Data Structures', mid1: 22, mid2: 24, semExam: 65, credits: 4 },
-        { name: 'Computer Networks', mid1: 20, mid2: 21, semExam: 68, credits: 3 },
-      ],
-      labs: [
-        { name: 'Python Lab', marks: 90, credits: 2 },
-        { name: 'Data Structures Lab', marks: 85, credits: 2 },
-      ],
-      sgpa: 8.4,
-    }
-  ]
-};
-
-const SAMPLE_PROJECTS: Project[] = [
-  {
-    id: 'proj1',
-    title: 'Smart Attendance System',
-    description: 'Developed a facial recognition based attendance system using Python and OpenCV',
-    startDate: '2023-01-15',
-    endDate: '2023-04-30',
-    studentId: 'student1',
-  }
-];
-
-const SAMPLE_INTERNSHIPS: Internship[] = [
-  {
-    id: 'intern1',
-    company: 'Karasuno Tech Solutions',
-    role: 'Python Developer Intern',
-    description: 'Worked on developing backend APIs for a customer management system',
-    startDate: '2023-05-15',
-    endDate: '2023-07-30',
-    studentId: 'student1',
-  }
-];
-
 const AcademicContext = createContext<AcademicContextType | undefined>(undefined);
 
 export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [academicRecords, setAcademicRecords] = useState<Record<string, SemesterRecord[]>>(SAMPLE_ACADEMIC_RECORDS);
-  const [projects, setProjects] = useState<Project[]>(SAMPLE_PROJECTS);
-  const [internships, setInternships] = useState<Internship[]>(SAMPLE_INTERNSHIPS);
+  // Initialize academic records from localStorage
+  const [academicRecords, setAcademicRecords] = useState<Record<string, SemesterRecord[]>>(() => {
+    return retrieveAcademicRecords();
+  });
+  
+  // Initialize projects from localStorage
+  const [projects, setProjects] = useState<Project[]>(() => {
+    return retrieveProjects();
+  });
+  
+  // Initialize internships from localStorage
+  const [internships, setInternships] = useState<Internship[]>(() => {
+    return retrieveInternships();
+  });
+
+  // Save academicRecords to localStorage whenever they change
+  useEffect(() => {
+    storeAcademicRecords(academicRecords);
+  }, [academicRecords]);
+
+  // Save projects to localStorage whenever they change
+  useEffect(() => {
+    storeProjects(projects);
+  }, [projects]);
+
+  // Save internships to localStorage whenever they change
+  useEffect(() => {
+    storeInternships(internships);
+  }, [internships]);
 
   const addSemesterRecord = (studentId: string, record: SemesterRecord) => {
     setAcademicRecords(prev => {
