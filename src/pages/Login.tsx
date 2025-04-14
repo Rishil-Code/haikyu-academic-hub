@@ -49,11 +49,11 @@ export default function Login() {
         </div>
         <div className="flex flex-col items-center gap-2">
           <div className="px-4 py-2 rounded-full bg-[#D6A4A4]/40 dark:bg-[#D6A4A4]/40 backdrop-blur-sm inline-block">
-            <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-white">
+            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
               SVU Student Hub
             </h1>
           </div>
-          <p className="mt-1 text-lg text-[#6D6875] dark:text-gray-300 bg-[#F4F4F9]/70 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">
+          <p className="mt-1 text-lg text-gray-700 dark:text-gray-300 bg-gray-100/70 dark:bg-[#282836]/70 px-4 py-1 rounded-full inline-block">
             Academic Management System
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function Login() {
       
       <div className="mt-12 text-center relative z-10">
         <div className="w-32 h-1 bg-[#D6A4A4]/30 mx-auto mb-4 rounded-full"></div>
-        <p className="text-sm text-[#6D6875] dark:text-gray-400 bg-white/30 dark:bg-[#282836]/70 px-3 py-1 rounded-full inline-block">
+        <p className="text-sm text-gray-600 dark:text-gray-400 bg-white/30 dark:bg-[#282836]/70 px-3 py-1 rounded-full inline-block">
           Powered by SVU © {new Date().getFullYear()}
         </p>
       </div>

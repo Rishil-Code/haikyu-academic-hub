@@ -33,34 +33,34 @@ export function TeacherForm({
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="id" className="text-[#2B2D42] font-medium bg-[#F4F4F9] px-2 py-1 rounded-md">Teacher ID</Label>
+          <Label htmlFor="id" className="text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md">Teacher ID</Label>
           <Input
             id="id"
             name="id"
             value={formData.id}
             onChange={handleChange}
             placeholder="teacher1"
-            className="border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20"
+            className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20"
             required
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="name" className="text-[#2B2D42] font-medium bg-[#F4F4F9] px-2 py-1 rounded-md">Full Name</Label>
+          <Label htmlFor="name" className="text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md">Full Name</Label>
           <Input
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="John Doe"
-            className="border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20"
+            className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20"
             required
           />
         </div>
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-[#2B2D42] font-medium bg-[#F4F4F9] px-2 py-1 rounded-md">Password</Label>
+        <Label htmlFor="password" className="text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md">Password</Label>
         <div className="relative">
           <Input
             id="password"
@@ -69,12 +69,12 @@ export function TeacherForm({
             value={formData.password}
             onChange={handleChange}
             placeholder="Min. 6 characters"
-            className="border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20 pr-10"
+            className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20 pr-10"
             required
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6D6875] hover:text-[#2B2D42]"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             onClick={togglePasswordVisibility}
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -84,15 +84,15 @@ export function TeacherForm({
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="department" className="text-[#2B2D42] font-medium bg-[#F4F4F9] px-2 py-1 rounded-md">Department</Label>
+          <Label htmlFor="department" className="text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md">Department</Label>
           <Select
             value={formData.department}
             onValueChange={(value) => handleSelectChange("department", value)}
           >
-            <SelectTrigger id="department" className="border-[#E2E2E7] focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20">
+            <SelectTrigger id="department" className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20">
               <SelectValue placeholder="Select Department" />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white dark:bg-gray-800">
               {availableDepartments.map(department => (
                 <SelectItem key={department} value={department}>{department}</SelectItem>
               ))}
@@ -101,7 +101,7 @@ export function TeacherForm({
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="gender" className="text-[#2B2D42] font-medium bg-[#F4F4F9] px-2 py-1 rounded-md">Gender</Label>
+          <Label htmlFor="gender" className="text-gray-700 dark:text-gray-200 font-medium bg-gray-100 dark:bg-gray-800/60 px-2 py-1 rounded-md">Gender</Label>
           <RadioGroup
             defaultValue={formData.gender}
             onValueChange={(value) => handleSelectChange("gender", value)}
@@ -109,15 +109,15 @@ export function TeacherForm({
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="male" id="male" className="text-[#D6A4A4] border-[#D6A4A4]" />
-              <Label htmlFor="male" className="text-[#2B2D42]">Male</Label>
+              <Label htmlFor="male" className="text-gray-700 dark:text-gray-200">Male</Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="female" id="female" className="text-[#D6A4A4] border-[#D6A4A4]" />
-              <Label htmlFor="female" className="text-[#2B2D42]">Female</Label>
+              <Label htmlFor="female" className="text-gray-700 dark:text-gray-200">Female</Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="other" id="other" className="text-[#D6A4A4] border-[#D6A4A4]" />
-              <Label htmlFor="other" className="text-[#2B2D42]">Other</Label>
+              <Label htmlFor="other" className="text-gray-700 dark:text-gray-200">Other</Label>
             </div>
           </RadioGroup>
         </div>

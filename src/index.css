@@ -52,7 +52,7 @@
 }
 
 body {
-  @apply bg-[#F4F4F9] dark:bg-[#1E1E2F] text-[#2B2D42] dark:text-gray-200 font-sans antialiased;
+  @apply bg-[#F4F4F9] dark:bg-[#1E1E2F] text-gray-800 dark:text-gray-200 font-sans antialiased;
 }
 
 /* Sakura theme utility classes */
@@ -66,15 +66,15 @@ body {
   }
   
   .input-field {
-    @apply bg-[#F4F4F9]/50 dark:bg-[#1E1E2F]/30 border border-[#D6A4A4]/20 rounded-lg focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20 text-[#2B2D42] dark:text-gray-200;
+    @apply bg-gray-50 dark:bg-[#1E1E2F]/30 border border-gray-300 dark:border-gray-700 rounded-lg focus:border-[#D6A4A4] focus:ring-[#D6A4A4]/20 text-gray-800 dark:text-gray-200;
   }
   
   .text-heading {
-    @apply text-xl font-semibold text-slate-800 dark:text-white;
+    @apply text-xl font-semibold text-gray-800 dark:text-white;
   }
   
   .text-subheading {
-    @apply text-sm text-[#6D6875] dark:text-gray-400;
+    @apply text-sm text-gray-600 dark:text-gray-400;
   }
   
   .badge {
@@ -87,6 +87,23 @@ body {
   
   .page-title {
     @apply text-3xl font-bold tracking-tight text-gray-800 dark:text-white bg-[#D6A4A4]/10 dark:bg-[#D6A4A4]/20 px-4 py-1 rounded-full inline-block;
+  }
+  
+  /* Empty state component */
+  .empty-state {
+    @apply flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-200 dark:border-gray-700 text-center;
+  }
+  
+  .empty-state-icon {
+    @apply text-gray-400 dark:text-gray-500 mb-4 h-12 w-12;
+  }
+  
+  .empty-state-text {
+    @apply text-gray-600 dark:text-gray-300 text-lg font-medium;
+  }
+  
+  .empty-state-subtext {
+    @apply text-gray-500 dark:text-gray-400 text-sm mt-1;
   }
 }
 
