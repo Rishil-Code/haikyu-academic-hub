@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { Certificate } from '@/types/user';
 import { storeCertificates, retrieveCertificates } from '@/utils/storage';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface CertificateContextType {
   certificates: Certificate[];
@@ -11,12 +12,14 @@ interface CertificateContextType {
   addCertificate: (certificate: Omit<Certificate, 'id'>) => void;
   deleteCertificate: (certificateId: string) => void;
   getUserCertificates: (userId: string) => Certificate[];
+  getVisibleCertificates: () => Certificate[];
   uploadCertificateFile: (file: File) => Promise<string>;
 }
 
 const CertificateContext = createContext<CertificateContextType | undefined>(undefined);
 
 export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
   const [certificates, setCertificates] = useState<Certificate[]>(() => {
     try {
       return retrieveCertificates();
@@ -77,6 +80,27 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
+  // Get certificates based on user role
+  const getVisibleCertificates = (): Certificate[] => {
+    if (!user) return [];
+    
+    if (user.role === 'student') {
+      // Students can only see their own certificates
+      return getUserCertificates(user.id);
+    } else if (user.role === 'teacher') {
+      // Teachers can see certificates from students in their department
+      return certificates.filter(cert => {
+        const certUser = cert.userData;
+        return certUser && certUser.department === user.department;
+      });
+    } else if (user.role === 'admin') {
+      // Admins can see all certificates
+      return certificates;
+    }
+    
+    return [];
+  };
+
   // Simulated file upload function with improved error handling
   const uploadCertificateFile = async (file: File): Promise<string> => {
     setIsLoading(true);
@@ -110,6 +134,7 @@ export const CertificateProvider: React.FC<{ children: React.ReactNode }> = ({ c
       addCertificate,
       deleteCertificate,
       getUserCertificates,
+      getVisibleCertificates,
       uploadCertificateFile,
     }}>
       {children}

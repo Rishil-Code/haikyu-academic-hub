@@ -269,8 +269,8 @@ export default function Results() {
                   <div className="mx-auto w-12 h-12 rounded-full bg-[#F4F4F9] dark:bg-gray-800 flex items-center justify-center mb-4">
                     <FileSpreadsheet className="h-6 w-6 text-[#D6A4A4]" />
                   </div>
-                  <h3 className="empty-state-text">No results found yet</h3>
-                  <p className="empty-state-subtext">
+                  <h3 className="text-xl font-medium mb-2 bg-[#D6A4A4]/20 dark:bg-[#D6A4A4]/30 px-3 py-1 rounded-full inline-block text-gray-800 dark:text-white">No results found yet</h3>
+                  <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mt-2">
                     Your academic records have not been added yet. Please check back later or contact your teacher.
                   </p>
                 </div>

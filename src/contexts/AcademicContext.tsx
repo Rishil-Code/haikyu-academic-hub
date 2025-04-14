@@ -1,5 +1,8 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
+import { useAuth } from '@/contexts/AuthContext';
+import { retrieveUsers } from '@/utils/storage';
 import { 
   storeAcademicRecords, 
   retrieveAcademicRecords, 
@@ -59,12 +62,17 @@ interface AcademicContextType {
   calculateSGPA: (subjects: Subject[], labs: Laboratory[]) => number;
   calculateCGPA: (studentId: string) => number;
   addProject: (project: Omit<Project, 'id'>) => void;
+  deleteProject: (projectId: string) => void;
+  getVisibleProjects: () => Project[];
   addInternship: (internship: Omit<Internship, 'id'>) => void;
+  deleteInternship: (internshipId: string) => void;
 }
 
 const AcademicContext = createContext<AcademicContextType | undefined>(undefined);
 
 export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+
   // Initialize academic records from localStorage
   const [academicRecords, setAcademicRecords] = useState<Record<string, SemesterRecord[]>>(() => {
     return retrieveAcademicRecords();
@@ -207,6 +215,7 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return completedSemesters > 0 ? parseFloat((totalSGPA / completedSemesters).toFixed(2)) : 0;
   };
 
+  // Project management
   const addProject = (projectData: Omit<Project, 'id'>) => {
     const newProject: Project = {
       ...projectData,
@@ -217,6 +226,36 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     toast.success("Project added successfully!");
   };
 
+  const deleteProject = (projectId: string) => {
+    setProjects(prev => prev.filter(proj => proj.id !== projectId));
+    toast.success("Project deleted successfully!");
+  };
+
+  // Get visible projects based on user role and department
+  const getVisibleProjects = (): Project[] => {
+    if (!user) return [];
+    
+    // Get all users to check departments
+    const allUsers = retrieveUsers() || [];
+    
+    if (user.role === 'student') {
+      // Students can only see their own projects
+      return projects.filter(project => project.studentId === user.id);
+    } else if (user.role === 'teacher') {
+      // Teachers can see projects from students in their department
+      return projects.filter(project => {
+        const studentUser = allUsers.find(u => u.id === project.studentId);
+        return studentUser && studentUser.department === user.department;
+      });
+    } else if (user.role === 'admin') {
+      // Admins can see all projects
+      return projects;
+    }
+    
+    return [];
+  };
+
+  // Internship management
   const addInternship = (internshipData: Omit<Internship, 'id'>) => {
     const newInternship: Internship = {
       ...internshipData,
@@ -225,6 +264,11 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     
     setInternships(prev => [...prev, newInternship]);
     toast.success("Internship added successfully!");
+  };
+
+  const deleteInternship = (internshipId: string) => {
+    setInternships(prev => prev.filter(intern => intern.id !== internshipId));
+    toast.success("Internship deleted successfully!");
   };
 
   return (
@@ -237,7 +281,10 @@ export const AcademicProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       calculateSGPA,
       calculateCGPA,
       addProject,
+      deleteProject,
+      getVisibleProjects,
       addInternship,
+      deleteInternship,
     }}>
       {children}
     </AcademicContext.Provider>
